@@ -3,6 +3,7 @@
     <b-container fluid="">
       <b-row>
         <b-col>
+          <h2 class="text-left title" style="color: #fff">Day shift</h2>
           <b-table
               class="out_table mt-1"
               :items="day_shift"
@@ -13,6 +14,7 @@
           ></b-table>
         </b-col>
         <b-col>
+          <h2 class="text-left title" style="color: #fff">Night shift</h2>
           <b-table
               class="out_table mt-1"
               :items="night_shift"
@@ -29,11 +31,14 @@
 
 <script>
 
+import $ from 'jquery'
 
 export default {
+
   name: "TableComponent",
   created() {
-    let target = Array(12).fill('250')
+    let target = Array(12).fill(250)
+
 
     let time_zone = []
 
@@ -46,43 +51,62 @@ export default {
     let rand_int = []
 
     for (let i = 0; i <= 11; i++) {
-      rand_int[i] = Math.floor(Math.random() * 1000)
+      let el = Math.floor(Math.random() * 1000)
+      rand_int[i] = el
     }
 
     let rand_int2 = []
 
     for (let i = 0; i <= 11; i++) {
-      rand_int2[i] = Math.floor(Math.random() * 1000)
+      let el2 = Math.floor(Math.random() * 1000)
+      rand_int2[i] = el2
     }
 
-    /*//let item = '<b-img src="https://i.ibb.co/x2NyKt8/in-time.png" fluid alt="Responsive image"></b-img>'
-     let intime = 'https://i.ibb.co/x2NyKt8/in-time.png'
-     let delay = 'https://i.ibb.co/GVRQRk9/delay.png'
-    let status = []
+
+    let status1 = []
     for (let i = 0; i <= 12; i++) {
-      status[i] = target < rand_int ? intime : delay;
-    }*/
+      if (target[i] < rand_int[i]) {
+        status1[i] = 'Excellent';
+      } else if (target[i] === rand_int[i]) {
+        status1[i] = 'Not bad';
+      } else {
+        status1[i] = 'Bad';
+      }
+    }
+
+    let status2 = []
+    let percent = 0.85
+    for (let i = 0; i <= 12; i++) {
+      if (target[i] < rand_int2[i]) {
+        status2[i] = 'Excellent';
+      } else if (target[i] < rand_int2[i] * percent) {
+        status2[i] = 'Not bad';
+      } else if (target[i] > 230) {
+        status2[i] = 'Bad';
+      }
+    }
 
     let day_arr = []
 
     for (let i = 0; i <= 11; i++) {
       let obj = {
-        hours: day_shift[i],
-        total: rand_int[i],
+        time: day_shift[i],
+        result: rand_int[i],
         target: target[i],
-        // status: status[i]
+        status: status1[i]
       }
       day_arr.push(obj);
     }
+
 
     let night_arr = []
 
     for (let i = 0; i <= 11; i++) {
       let obj = {
-        hours: night_shift[i],
-        total: rand_int2[i],
+        time: night_shift[i],
+        result: rand_int2[i],
         target: target[i],
-        // status: status[i]
+        status: status2[i]
       }
       night_arr.push(obj);
     }
@@ -90,17 +114,17 @@ export default {
     this.$data.day_shift = day_arr
     this.$data.night_shift = night_arr
 
-    let tr = document.getElementsByTagName('tr');
-    console.log(tr)
-   tr.style.backround = 'red'
-    /*if (target >= day_shift && night_shift){
+    $(function () {
+      $('td:contains("Bad")').parent().css('background', '#ff0000')
+      $('td:contains("Excellent")').parent().css('background', '#00AF50')
+      $('td:contains("Not bad")').parent().css('background', '#0071C0')
 
-    }*/
+    });
+
   },
-
   data() {
     return {
-      fields: ['hours', 'target', 'total'],
+      fields: ['time', 'target', 'result', 'status'],
       tableVariant: 'dark',
       day_shift: [],
       night_shift: [],
@@ -124,13 +148,34 @@ export default {
 
 </script>
 <style scoped>
-.out_table {
-  border: 1px solid #000000;
-}
 
 @media screen and (min-width: 2280px) {
   .out_table {
-    font-size: 60px;
+    font-size: 80px;
   }
+  .title{
+    font-size: 80px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .out_table {
+    font-size: 30px;
+  }
+  .title{
+    font-size: 30px;
+  }
+}
+
+.exelent_st tr {
+  background: #00AF50;
+}
+
+.bad_st tr {
+  background: #ff0000;
+}
+
+.nb_stat tr {
+  background: #0071C0;
 }
 </style>
