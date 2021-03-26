@@ -39,7 +39,6 @@ export default {
   created() {
     let target = Array(12).fill(250)
 
-
     let time_zone = []
 
     for (let i = 0; i <= 23; i++) {
@@ -66,23 +65,22 @@ export default {
     let status1 = []
     for (let i = 0; i <= 12; i++) {
       if (target[i] < rand_int[i]) {
-        status1[i] = 'Excellent';
-      } else if (target[i] === rand_int[i]) {
-        status1[i] = 'Not bad';
+        status1[i] = 'Отлично';
+      } else if (rand_int[i] > 200) {
+        status1[i] = 'Норма';
       } else {
-        status1[i] = 'Bad';
+        status1[i] = 'Плохо';
       }
     }
 
     let status2 = []
-    let percent = 0.85
     for (let i = 0; i <= 12; i++) {
       if (target[i] < rand_int2[i]) {
-        status2[i] = 'Excellent';
-      } else if (target[i] < rand_int2[i] * percent) {
-        status2[i] = 'Not bad';
-      } else if (target[i] > 230) {
-        status2[i] = 'Bad';
+        status2[i] = 'Отлично';
+      } else if (rand_int2[i] > 200) {
+        status2[i] = 'Норма';
+      } else {
+        status2[i] = 'Плохо';
       }
     }
 
@@ -97,7 +95,6 @@ export default {
       }
       day_arr.push(obj);
     }
-
 
     let night_arr = []
 
@@ -115,10 +112,9 @@ export default {
     this.$data.night_shift = night_arr
 
     $(function () {
-      $('td:contains("Bad")').parent().css('background', '#ff0000')
-      $('td:contains("Excellent")').parent().css('background', '#00AF50')
-      $('td:contains("Not bad")').parent().css('background', '#0071C0')
-
+      $('td:contains("Плохо")').parent().css('background', '#ff0000')
+      $('td:contains("Отлично")').parent().css('background', '#00AF50')
+      $('td:contains("Норма")').parent().css('background', '#0071C0')
     });
 
   },
@@ -136,14 +132,6 @@ export default {
   mounted() {
 
   },
-  asyncComputed: {
-    sum() {
-      const total = this.x + this.y
-      return new Promise(resolve =>
-          setTimeout(() => resolve(total), 1000)
-      )
-    },
-  }
 }
 
 </script>
@@ -153,7 +141,8 @@ export default {
   .out_table {
     font-size: 80px;
   }
-  .title{
+
+  .title {
     font-size: 80px;
   }
 }
@@ -162,7 +151,8 @@ export default {
   .out_table {
     font-size: 30px;
   }
-  .title{
+
+  .title {
     font-size: 30px;
   }
 }
