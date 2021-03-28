@@ -54,7 +54,7 @@
 <script>
 
 import $ from 'jquery'
-
+import http from '../http-common'
 
 export default {
 
@@ -187,7 +187,10 @@ export default {
     }
   },
   mounted() {
-
+    http.get("/refreshDB", {})
+        .then(res => {
+          console.log(res.data);
+        })
   },
 }
 
@@ -201,17 +204,18 @@ export default {
 
   .title {
     font-size: 80px;
+    color: #fff !important;
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1920px) {
   .out_table {
-    font-size: 30px;
+    font-size: 18px;
   }
 
   .title {
     font-size: 30px;
-    color: #fff;
+    color: #fff !important;
   }
 }
 
