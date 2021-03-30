@@ -1,31 +1,24 @@
 <template>
-  <div id="app">
-    <HeaderComponent/>
-    <TableComponent/>
-  </div>
+  <transition>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+  </transition>
 </template>
 
 <script>
-import HeaderComponent from "@/components/HeaderComponent";
-import TableComponent from "@/components/TableComponent";
 
 export default {
   name: 'App',
-  components: {
-    TableComponent,
-    HeaderComponent,
-  }
 }
 </script>
 
 <style>
-#app {
+html body {
+  background-color: #262626;
+  text-align: center;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
-html body{
-  background-color: #262626;
 }
 </style>

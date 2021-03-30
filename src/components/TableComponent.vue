@@ -5,45 +5,45 @@
         <b-col>
           <h2 class="text-left title">Дневная смена</h2>
           <b-table
-              class="out_table mt-1"
-              :items="day_shift"
-              :fields="fields"
-              :table-variant="tableVariant"
               :bordered="true"
+              :fields="fields"
               :head-variant="col"
+              :items="day_shift"
+              :table-variant="tableVariant"
+              class="out_table mt-1"
           ></b-table>
         </b-col>
         <b-col>
           <h2 class="text-left title">Ночная смена</h2>
           <b-table
-              class="out_table mt-1"
-              :items="night_shift"
-              :fields="fields"
-              :table-variant="tableVariant"
               :bordered="true"
+              :fields="fields"
               :head-variant="col"
+              :items="night_shift"
+              :table-variant="tableVariant"
+              class="out_table mt-1"
           ></b-table>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
           <b-table
-              class="out_table"
-              :items="total_d"
-              :fields="total_fields"
-              :table-variant="tableVariant"
               :bordered="true"
+              :fields="total_fields"
               :head-variant="col"
+              :items="total_d"
+              :table-variant="tableVariant"
+              class="out_table"
           ></b-table>
         </b-col>
         <b-col>
           <b-table
-              class="out_table"
-              :items="total_n"
-              :fields="total_fields"
-              :table-variant="tableVariant"
               :bordered="true"
+              :fields="total_fields"
               :head-variant="col"
+              :items="total_n"
+              :table-variant="tableVariant"
+              class="out_table"
           ></b-table>
         </b-col>
       </b-row>
@@ -308,7 +308,7 @@ export default {
       this.stopTimer()
       this.interval = window.setInterval(() => {
         this.getCounters()
-      }, 1200000)
+      }, 5000)
     }
   },
   mounted() {
