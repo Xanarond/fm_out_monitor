@@ -1,12 +1,11 @@
 <template>
   <div id="charts">
-    <HeaderComponent/>
     <b-container fluid="">
       <b-col>
         <h1>Chart Page</h1>
         <b-row>
           <b-col>
-            <ChartComponent/>
+            <NightChartComponent/>
           </b-col>
         </b-row>
       </b-col>
@@ -15,12 +14,12 @@
 </template>
 
 <script>
-import HeaderComponent from "@/components/HeaderComponent";
-import ChartComponent from "@/components/ChartComponent";
+import NightChartComponent from "@/components/NightChartComponent";
+
 
 export default {
-  name: "ChartPage",
-  components: {ChartComponent, HeaderComponent}
+  name: "NightShiftChartPage",
+  components: {NightChartComponent}
 }
 </script>
 

@@ -1,15 +1,22 @@
 <template>
-  <transition>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-  </transition>
+  <div id="app">
+    <Navigation/>
+    <div>
+      <transition>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
+      </transition>
+    </div>
+  </div>
 </template>
 
 <script>
 
+import Navigation from "@/components/Navigation";
 export default {
   name: 'App',
+  components: {Navigation},
 }
 </script>
 
