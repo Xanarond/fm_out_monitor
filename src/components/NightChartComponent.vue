@@ -93,8 +93,17 @@ export default {
             }
           ],
         },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            dataLabels: {
+              position: 'top',
+            },
+          }
+        },
         dataLabels: {
           enabled: true,
+          offsetY: -60,
           style: {
             fontSize: "45px",
             fontFamily: "Helvetica, Arial, sans-serif",

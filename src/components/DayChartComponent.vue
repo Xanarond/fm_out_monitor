@@ -1,5 +1,5 @@
 <template>
-  <div class="chart" >
+  <div class="chart">
     <apexcharts height="700" type="bar" :options="chartOptions" :series="series"></apexcharts>
   </div>
 </template>
@@ -18,7 +18,7 @@ export default {
         chart: {
           id: 'bar',
         },
-        legend:{
+        legend: {
           // show: true,
           position: 'top',
           horizontalAlign: 'right',
@@ -40,12 +40,10 @@ export default {
             {
               y: 333,
               borderColor: '#00E396',
-               width: '100%',
-               
+              width: '100%',
               label: {
-
-              borderColor: '#00E396',
-              borderRadius: 20,
+                borderColor: '#00E396',
+                borderRadius: 20,
                 style: {
                   color: '#fff',
                   borderWidght: 20,
@@ -58,12 +56,11 @@ export default {
             {
               y: 334,
               borderColor: '#00E396',
-               width: '100%',
-               height: '30px',
+              width: '100%',
+              height: '30px',
               label: {
-
-              borderColor: '#00E396',
-              borderRadius: 20,
+                borderColor: '#00E396',
+                borderRadius: 20,
                 style: {
                   color: '#fff',
                   borderWidght: 20,
@@ -76,12 +73,11 @@ export default {
             {
               y: 335,
               borderColor: '#00E396',
-               width: '100%',
-               height: '30px',
+              width: '100%',
+              height: '30px',
               label: {
-
-              borderColor: '#00E396',
-              borderRadius: 20,
+                borderColor: '#00E396',
+                borderRadius: 20,
                 style: {
                   color: '#fff',
                   borderWidght: 20,
@@ -93,13 +89,18 @@ export default {
             }
           ],
         },
+        plotOptions: {
+          bar: {
+            borderRadius: 10,
+            dataLabels: {
+              position: 'top',
+            },
+          }
+        },
         dataLabels: {
           enabled: true,
-          //textAnchor: 'end',
-          //offsetY: 70,
-          
+          offsetY: -60,
           style: {
-            align: 'top',
             fontSize: "45px",
             fontFamily: "Helvetica, Arial, sans-serif",
             fontWeight: "bold"
@@ -137,7 +138,7 @@ export default {
     this.stopTimer()
   },
   methods: {
-    getFormatData(){
+    getFormatData() {
       let time_zone = []
 
       for (let i = 0; i <= 23; i++) {
