@@ -28,4 +28,19 @@ html body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+h1 {
+  color: #ffffff;
+}
+
+hr {
+  border: 0 !important;
+  border-top: 1px solid #acacac !important;
+}
+
+h3 {
+  color: #acacac !important;
+  font-size: 16px !important;
+  margin: 0 !important;
+}
+
 </style>

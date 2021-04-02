@@ -1,5 +1,5 @@
 <template>
-  <div class="chart" style="background: #605f5f">
+  <div class="chart" >
     <apexcharts height="700" type="bar" :options="chartOptions" :series="series"></apexcharts>
   </div>
 </template>
@@ -50,6 +50,14 @@ export default {
               }
             }
           ],
+        },
+        dataLabels: {
+          enabled: true,
+          style: {
+            fontSize: "20px",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontWeight: "bold"
+          }
         },
         yaxis: {
           labels: {
