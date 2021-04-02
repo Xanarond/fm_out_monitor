@@ -61,7 +61,7 @@ export default {
   name: "TableComponent",
   created() {
     // массив целевых значений
-    let target = Array(12).fill(250)
+    let target = Array(12).fill(333)
 
     // задаем массивы для временных промежутков
     let time_zone = []
@@ -119,7 +119,7 @@ export default {
     for (let i = 0; i <= 11; i++) {
       if (target[i] < rand_int[i]) {
         status1[i] = 'Отлично';
-      } else if (rand_int[i] > 200) {
+      } else if (rand_int[i] > 300) {
         status1[i] = 'Норма';
       } else {
         status1[i] = 'Плохо';
@@ -130,7 +130,7 @@ export default {
     for (let i = 0; i <= 11; i++) {
       if (target[i] < rand_int2[i]) {
         status2[i] = 'Отлично';
-      } else if (rand_int2[i] > 200) {
+      } else if (rand_int2[i] > 300) {
         status2[i] = 'Норма';
       } else {
         status2[i] = 'Плохо';
@@ -191,7 +191,7 @@ export default {
       http.get("/refreshDB", {})
           .then(res => {
             // массив целевых значений
-            let target = Array(12).fill(250)
+            let target = Array(12).fill(333)
 
             //результирующий массив из БД
             let shifts = []
@@ -218,24 +218,24 @@ export default {
             }, 0);
 
             let total_night = night_res.reduce((sum, cur) => {
-              return sum + cur
+             return sum + cur
             }, 0);
 
-            let target_sum = target.reduce((sum, cur) => {
-              return sum + cur
-            }, 0);
+            //let target_sum = target.reduce((sum, cur) => {
+              //return sum + cur
+            //}, 0);
 
             let sum_day = []
             let sum_night = []
 
             let day_t = {
-              target: target_sum,
+              target: '4000',
               total: total_day,
             }
             sum_day.push(day_t)
 
             let night_t = {
-              target: target_sum,
+              target: '4000',
               total: total_night
             }
             sum_night.push(night_t)
@@ -245,7 +245,7 @@ export default {
 
             for (let i = 0; i <= 11; i++) {
               status1[i] = target[i] < day_res[i]
-                  ? 'Отлично' : status1[i] = day_res[i] >= 200
+                  ? 'Отлично' : status1[i] = day_res[i] >= 300
                       ? 'Норма' : status1[i] = day_res[i] === 0 || day_res[i] === ''
                           ? '-' : 'Плохо';
             }
@@ -253,7 +253,7 @@ export default {
             let status2 = []
             for (let i = 0; i <= 11; i++) {
               status2[i] = target[i] < night_res[i]
-                  ? 'Отлично' : status2[i] = night_res[i] >= 200
+                  ? 'Отлично' : status2[i] = night_res[i] >= 300
                       ? 'Норма' : status2[i] = night_res[i] === 0 || night_res[i] === ''
                           ? '-' : 'Плохо';
             }
