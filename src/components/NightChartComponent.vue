@@ -24,38 +24,88 @@ export default {
           horizontalAlign: 'right',
         },
         fill: {
-          type: 'gradient',
+          //type: 'gradient',
           colors: [function ({value}) {
-            if (250 < value) {
-              return '#00AF50';
-            } else if (value >= 200) {
+            if (333 < value) {
+              return '#3fe656';
+            } else if (value >= 300) {
               return '#0071C0';
             } else {
-              return '#ff0000';
+              return '#f4cb50';
             }
           }],
         },
         annotations: {
           yaxis: [
             {
-              y: 250,
+              y: 333,
               borderColor: '#00E396',
+               width: '100%',
+               height: '30px',
               label: {
-                borderColor: '#00E396',
+
+              borderColor: '#00E396',
+              borderRadius: 20,
                 style: {
                   color: '#fff',
-                  background: '#00E396'
+                  borderWidght: 20,
+                  background: '#00E396',
+                  fontSize: '22 px'
+                },
+                text: 'Target Point'
+              }
+            },
+            {
+              y: 334,
+              borderColor: '#00E396',
+               width: '100%',
+               height: '30px',
+              label: {
+
+              borderColor: '#00E396',
+              borderRadius: 20,
+                style: {
+                  color: '#fff',
+                  borderWidght: 20,
+                  background: '#00E396',
+                  fontSize: '22 px'
+                },
+                text: 'Target Point'
+              }
+            },
+            {
+              y: 335,
+              borderColor: '#00E396',
+               width: '100%',
+               height: '30px',
+              label: {
+
+              borderColor: '#00E396',
+              borderRadius: 20,
+                style: {
+                  color: '#fff',
+                  borderWidght: 20,
+                  background: '#00E396',
+                  fontSize: '40px'
                 },
                 text: 'Target Point'
               }
             }
           ],
         },
+        dataLabels: {
+          enabled: true,
+          style: {
+            fontSize: "45px",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontWeight: "bold"
+          }
+        },
         yaxis: {
           labels: {
             style: {
               colors: '#fff',
-              fontSize: '12px'
+              fontSize: '20px'
             }
           },
         },
@@ -64,7 +114,7 @@ export default {
           labels: {
             style: {
               colors: '#fff',
-              fontSize: '12px'
+              fontSize: '30px'
             }
           },
         }

@@ -2,7 +2,7 @@
   <div id="charts">
     <b-container fluid="">
       <b-col>
-        <h1>Chart Page</h1>
+        <h1>Night Shift</h1>
         <b-row>
           <b-col>
             <NightChartComponent/>
