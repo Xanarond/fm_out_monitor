@@ -1,6 +1,45 @@
 <template>
   <div class="chart">
-    <apexcharts height="700" type="bar" :options="chartOptions" :series="series"></apexcharts>
+    <b-row>
+      <b-col class="border-right h-75 mt-5">
+        <b-row class="pt-5">
+          <b-col class="m-auto"><h2>Shift Target</h2></b-col>
+          <b-col>
+            <div>
+              <hr/>
+            </div>
+          </b-col>
+          <b-col cols="12">
+            <h1 style="font-size: 90px;">{{ total }}</h1>
+          </b-col>
+        </b-row>
+        <b-row class="pt-5">
+          <b-col class="m-auto"><h2>Complete</h2></b-col>
+          <b-col>
+            <div>
+              <hr/>
+            </div>
+          </b-col>
+          <b-col cols="12">
+            <h1 style="font-size: 90px;">{{ complete }}</h1>
+          </b-col>
+        </b-row>
+        <b-row class="pt-5">
+          <b-col class="m-auto"><h2>Progress Rate</h2></b-col>
+          <b-col>
+            <div>
+              <hr/>
+            </div>
+          </b-col>
+          <b-col cols="12">
+            <h1 style="font-size: 90px;">{{ progress }}</h1>
+          </b-col>
+        </b-row>
+      </b-col>
+      <b-col cols="9">
+        <apexcharts height="700" type="bar" :options="chartOptions" :series="series"></apexcharts>
+      </b-col>
+    </b-row>
   </div>
 </template>
 <script>
@@ -14,6 +53,9 @@ export default {
   },
   data() {
     return {
+      complete: '',
+      total: '',
+      progress: '',
       chartOptions: {
         chart: {
           id: 'bar',
@@ -157,6 +199,16 @@ export default {
             this.series = [{
               data: shifts.slice(8, 20)
             }]
+
+            // суммы для результатов
+            let com = shifts.slice(8, 20).reduce((sum, cur) => {
+              return sum + cur
+            }, 0)
+
+            this.total = new Intl.NumberFormat('en-US').format(4000)
+            this.complete = new Intl.NumberFormat('en-US').format(com)
+            this.progress = Math.floor((com / 4000) * 100) + '%'
+
           })
           .catch((e) => {
             return e === 'Нет ответа от сервера'

@@ -37,9 +37,9 @@ hr {
   border-top: 1px solid #acacac !important;
 }
 
-h3 {
-  color: #acacac !important;
-  font-size: 16px !important;
+h2 {
+  color: #ffffff !important;
+  font-size: 24px !important;
   margin: 0 !important;
 }
 
