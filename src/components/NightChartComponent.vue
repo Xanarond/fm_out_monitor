@@ -61,20 +61,12 @@ export default {
           id: 'bar',
         },
         legend:{
-          // show: true,
           position: 'top',
           horizontalAlign: 'right',
         },
         fill: {
-          //type: 'gradient',
-          colors: [function ({value}) {
-            if (333 < value) {
-              return '#3fe656';
-            } else if (value >= 300) {
-              return '#0071C0';
-            } else {
-              return '#f4cb50';
-            }
+          colors: [({value}) => {
+            return 333 < value ? '#3fe656' : value >= 300 ? '#0071C0' : '#f4cb50';
           }],
         },
         annotations: {
@@ -178,7 +170,6 @@ export default {
   },
   mounted() {
     this.getCounters();
-    console.log(this.getFormatData())
     this.startTimer()
   },
   beforeDestroy() {
