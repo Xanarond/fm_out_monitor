@@ -9,6 +9,8 @@ import VueApexCharts from 'vue-apexcharts'
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.dark.css';
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)

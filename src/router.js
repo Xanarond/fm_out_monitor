@@ -4,6 +4,8 @@ import TablePage from "@/pages/TablePage";
 import PageNotFound from "@/pages/PageNotFound";
 import DayShiftChartPage from "@/pages/DayShiftChartPage";
 import NightShiftChartPage from "@/pages/NightShiftChartPage";
+import DayShiftPivotPage from "./pages/DayShiftPivotPage";
+import NightShiftPivotPage from "./pages/NightShiftPivotPage";
 
 
 Vue.use(Router);
@@ -14,6 +16,8 @@ export default new Router({
         {path: "/", component: TablePage,},
         {path: "/day", component: DayShiftChartPage},
         {path: "/night", component: NightShiftChartPage},
+        {path: "/dayp", component: DayShiftPivotPage},
+        {path: "/nightp", component: NightShiftPivotPage},
         {path: '*', component: PageNotFound}
     ]
 });
