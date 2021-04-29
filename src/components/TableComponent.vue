@@ -61,7 +61,7 @@ export default {
   name: "TableComponent",
   created() {
     // массив целевых значений
-    let target = Array(12).fill(333)
+    let target = Array(12).fill(this.total / 12)
 
     // задаем массивы для временных промежутков
     let time_zone = []
@@ -183,7 +183,8 @@ export default {
       night_shift: [],
       col: 'dark',
       total_d: [],
-      total_n: []
+      total_n: [],
+      total: 6000
     }
   },
   methods: {
@@ -191,7 +192,7 @@ export default {
       http.get("/refreshDB", {})
           .then(res => {
             // массив целевых значений
-            let target = Array(12).fill(333)
+            let target = Array(12).fill(this.total / 12)
 
             //результирующий массив из БД
             let shifts = []
@@ -229,13 +230,13 @@ export default {
             let sum_night = []
 
             let day_t = {
-              target: '4000',
+              target: this.total,
               total: total_day,
             }
             sum_day.push(day_t)
 
             let night_t = {
-              target: '4000',
+              target: this.total,
               total: total_night
             }
             sum_night.push(night_t)

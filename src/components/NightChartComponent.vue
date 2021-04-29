@@ -56,8 +56,8 @@ export default {
       complete: '',
       total: 6000,
       progress: '',
-      max_target: this.total / 12,
-      min_target: this.max_target - 50,
+      max_target: 500,
+      min_target: '',
       chartOptions: {
         chart: {
           id: 'bar',
@@ -74,7 +74,7 @@ export default {
         annotations: {
           yaxis: [
             {
-              y: this.max_target,
+              y: 500,
               borderColor: '#00E396',
               width: '100%',
               height: '30px',
@@ -91,7 +91,7 @@ export default {
               }
             },
             {
-              y: this.max_target + 1,
+              y: 500 + 1,
               borderColor: '#00E396',
               width: '100%',
               height: '30px',
@@ -108,7 +108,7 @@ export default {
               }
             },
             {
-              y: this.max_target + 2,
+              y: 500 + 2,
               borderColor: '#00E396',
               width: '100%',
               height: '30px',
@@ -200,7 +200,8 @@ export default {
             let com = night_s.reduce((sum, cur) => {
               return sum + cur
             }, 0)
-
+            this.max_target = this.total / 12
+            this.min_target = this.max_target - 50
             this.complete = new Intl.NumberFormat('en-US').format(com)
             this.progress = Math.floor((com / this.total) * 100) + '%'
 

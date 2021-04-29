@@ -56,8 +56,8 @@ export default {
       complete: '',
       total: 6000,
       progress: '',
-      max_target: this.total / 12,
-      min_target: this.max_target - 50,
+      max_target: '',
+      min_target: '',
       chartOptions: {
         chart: {
           id: 'bar',
@@ -169,6 +169,9 @@ export default {
   mounted() {
     this.getCounters();
     this.startTimer()
+    this.max_target = this.total / 12
+    this.min_target = this.max_target - 50
+    console.log(this.total / 12, this.max_target, this.min_target)
   },
   beforeDestroy() {
     this.stopTimer()
@@ -198,6 +201,7 @@ export default {
             let com = shifts.slice(8, 20).reduce((sum, cur) => {
               return sum + cur
             }, 0)
+
 
             this.complete = new Intl.NumberFormat('en-US').format(com)
             this.progress = Math.floor((com / this.total) * 100) + '%'
