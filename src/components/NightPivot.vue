@@ -33,8 +33,7 @@ export default {
       dataSource: new PivotGridDataSource({
         rtlEnabled: true,
         store: createStore({
-          key: 'OrderID',
-          loadUrl: 'http://localhost:8081/api/refreshPivotNight'
+          loadUrl: 'http://192.168.201.34:8081/api/refreshPivotNight'
         }),
         fields: [
           {

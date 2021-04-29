@@ -54,8 +54,10 @@ export default {
   data() {
     return {
       complete: '',
-      total: '',
+      total: 6000,
       progress: '',
+      max_target: this.total / 12,
+      min_target: this.max_target - 50,
       chartOptions: {
         chart: {
           id: 'bar',
@@ -66,13 +68,13 @@ export default {
         },
         fill: {
           colors: [({value}) => {
-            return 333 < value ? '#3fe656' : value >= 300 ? '#0071C0' : '#f4cb50';
+            return this.max_target < value ? '#3fe656' : value >= this.min_target ? '#0071C0' : '#f4cb50';
           }],
         },
         annotations: {
           yaxis: [
             {
-              y: 333,
+              y: this.max_target,
               borderColor: '#00E396',
               width: '100%',
               label: {
@@ -88,7 +90,7 @@ export default {
               }
             },
             {
-              y: 334,
+              y: this.max_target + 1,
               borderColor: '#00E396',
               width: '100%',
               height: '30px',
@@ -105,7 +107,7 @@ export default {
               }
             },
             {
-              y: 335,
+              y: this.max_target + 2,
               borderColor: '#00E396',
               width: '100%',
               height: '30px',
@@ -197,9 +199,8 @@ export default {
               return sum + cur
             }, 0)
 
-            this.total = new Intl.NumberFormat('en-US').format(4000)
             this.complete = new Intl.NumberFormat('en-US').format(com)
-            this.progress = Math.floor((com / 4000) * 100) + '%'
+            this.progress = Math.floor((com / this.total) * 100) + '%'
 
           })
           .catch((e) => {

@@ -54,32 +54,33 @@ export default {
   data() {
     return {
       complete: '',
-      total: '',
+      total: 6000,
       progress: '',
+      max_target: this.total / 12,
+      min_target: this.max_target - 50,
       chartOptions: {
         chart: {
           id: 'bar',
         },
-        legend:{
+        legend: {
           position: 'top',
           horizontalAlign: 'right',
         },
         fill: {
           colors: [({value}) => {
-            return 333 < value ? '#3fe656' : value >= 300 ? '#0071C0' : '#f4cb50';
+            return this.max_target < value ? '#3fe656' : value >= this.min_target ? '#0071C0' : '#f4cb50';
           }],
         },
         annotations: {
           yaxis: [
             {
-              y: 333,
+              y: this.max_target,
               borderColor: '#00E396',
-               width: '100%',
-               height: '30px',
+              width: '100%',
+              height: '30px',
               label: {
-
-              borderColor: '#00E396',
-              borderRadius: 20,
+                borderColor: '#00E396',
+                borderRadius: 20,
                 style: {
                   color: '#fff',
                   borderWidght: 20,
@@ -90,14 +91,13 @@ export default {
               }
             },
             {
-              y: 334,
+              y: this.max_target + 1,
               borderColor: '#00E396',
-               width: '100%',
-               height: '30px',
+              width: '100%',
+              height: '30px',
               label: {
-
-              borderColor: '#00E396',
-              borderRadius: 20,
+                borderColor: '#00E396',
+                borderRadius: 20,
                 style: {
                   color: '#fff',
                   borderWidght: 20,
@@ -108,14 +108,13 @@ export default {
               }
             },
             {
-              y: 335,
+              y: this.max_target + 2,
               borderColor: '#00E396',
-               width: '100%',
-               height: '30px',
+              width: '100%',
+              height: '30px',
               label: {
-
-              borderColor: '#00E396',
-              borderRadius: 20,
+                borderColor: '#00E396',
+                borderRadius: 20,
                 style: {
                   color: '#fff',
                   borderWidght: 20,
@@ -176,7 +175,7 @@ export default {
     this.stopTimer()
   },
   methods: {
-    getFormatData(){
+    getFormatData() {
       let time_zone = []
 
       for (let i = 0; i <= 23; i++) {
@@ -184,7 +183,7 @@ export default {
       }
       return time_zone.slice(20, 24).concat(time_zone.slice(0, 8))
     },
- getCounters() {
+    getCounters() {
       http.get("/refreshDB", {})
           .then(res => {
             //результирующий массив из БД
@@ -202,9 +201,8 @@ export default {
               return sum + cur
             }, 0)
 
-            this.total = new Intl.NumberFormat('en-US').format(4000)
             this.complete = new Intl.NumberFormat('en-US').format(com)
-            this.progress = Math.floor((com / 4000) * 100) + '%'
+            this.progress = Math.floor((com / this.total) * 100) + '%'
 
           })
           .catch((e) => {
@@ -216,7 +214,7 @@ export default {
         window.clearInterval(this.interval)
       }
     },
- startTimer() {
+    startTimer() {
       this.stopTimer()
       this.interval = window.setInterval(() => {
         this.getCounters()

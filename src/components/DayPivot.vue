@@ -32,7 +32,7 @@ export default {
     return {
       dataSource: new PivotGridDataSource({
         store: createStore({
-          loadUrl: 'http://localhost:8081/api/refreshPivotDay'
+          loadUrl: 'http://192.168.201.34:8081/api/refreshPivotNight'
         }),
         fields: [
           {
