@@ -1,6 +1,7 @@
 <template>
   <div>
     <DxPivotGrid
+        id="pivot"
         :allow-sorting-by-summary="true"
         :allow-sorting="true"
         :allow-filtering="true"
@@ -31,7 +32,6 @@ export default {
     return {
       dataSource: new PivotGridDataSource({
         store: createStore({
-          key: 'OrderID',
           loadUrl: 'http://localhost:8081/api/refreshPivotDay'
         }),
         fields: [
@@ -41,7 +41,8 @@ export default {
             dataType: 'text',
             area: 'row',
             sortBySummaryField: 'person',
-            sortOrder: 'desc'
+            sortOrder: 'desc',
+            width: 200
           },
           {
             caption: 'Pick_time',
@@ -62,16 +63,8 @@ export default {
 };
 </script>
 <style scoped>
-#sales {
-  margin-top: 80px;
-}
-
-.long-title h3 {
-  font-family: "Segoe UI Light", "Helvetica Neue Light", "Segoe UI",
-  "Helvetica Neue", "Trebuchet MS", Verdana;
-  font-weight: 200;
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 20px;
+#pivot div{
+  text-align: center !important;
+  font-size: 20px;
 }
 </style>

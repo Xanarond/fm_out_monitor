@@ -17,7 +17,7 @@
 import DxPivotGrid, {DxFieldChooser} from 'devextreme-vue/pivot-grid';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 
-import { createStore } from 'devextreme-aspnet-data-nojquery';
+import {createStore} from 'devextreme-aspnet-data-nojquery';
 
 
 export default {
@@ -44,6 +44,7 @@ export default {
             area: 'row',
             sortBySummaryField: 'person',
             sortOrder: 'desc',
+            width: 200
           },
           {
             caption: 'Pick_time',
@@ -64,23 +65,8 @@ export default {
 };
 </script>
 <style scoped>
-#sales {
-  margin-top: 80px;
-}
-#pivot{
-  text-align: center;
-}
-tr{
-  text-align: center;
-  align-content: center;
-}
-
-.long-title h3 {
-  font-family: "Segoe UI Light", "Helvetica Neue Light", "Segoe UI",
-  "Helvetica Neue", "Trebuchet MS", Verdana;
-  font-weight: 200;
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 20px;
+#pivot {
+  text-align: center !important;
+  font-size: 20px;
 }
 </style>
