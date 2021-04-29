@@ -96,12 +96,12 @@ export default {
       } else {
         const { value } = cell;
         if(value < 20) {
-          return { font: 'e7000a', fill: 'FFC7CE'};
+          return { font: 'e7000a', fill: 'FFC7CE' , bold: true};
         }
         if(value > 25) {
-          return { font: '01e001', fill: 'C6EFCE' };
+          return { font: '01e001', fill: 'C6EFCE', bold: true };
         }
-        return { font: '0d5dff', fill: 'FFEB9C' };
+        return { font: '0d5dff', fill: 'FFEB9C', bold: true };
       }
     }
   }

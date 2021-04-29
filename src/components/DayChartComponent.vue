@@ -74,7 +74,7 @@ export default {
         annotations: {
           yaxis: [
             {
-              y: this.max_target,
+              y: 500,
               borderColor: '#00E396',
               width: '100%',
               label: {
@@ -90,7 +90,7 @@ export default {
               }
             },
             {
-              y: this.max_target + 1,
+              y: 500 + 1,
               borderColor: '#00E396',
               width: '100%',
               height: '30px',
@@ -107,7 +107,7 @@ export default {
               }
             },
             {
-              y: this.max_target + 2,
+              y: 500 + 2,
               borderColor: '#00E396',
               width: '100%',
               height: '30px',
@@ -171,7 +171,6 @@ export default {
     this.startTimer()
     this.max_target = this.total / 12
     this.min_target = this.max_target - 50
-    console.log(this.total / 12, this.max_target, this.min_target)
   },
   beforeDestroy() {
     this.stopTimer()
