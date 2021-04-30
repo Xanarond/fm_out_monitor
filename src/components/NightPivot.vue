@@ -49,7 +49,7 @@ export default {
             caption: 'Pick_time',
             dataField: 'pick_time',
             dataType: 'datetime',
-            area: 'column'
+            area: 'column',
           },
           {
             caption: 'Value_Person',
@@ -84,10 +84,10 @@ export default {
     getCssStyles({ font, bold }) {
       return {
         // 'background-color': `#${fill}`,
-        color: `#${font}`,
+        color: `${font}`,
         'font-weight': bold ? 'bold' : undefined,
         'text-align': 'center',
-        'font-size': '30px'
+        'font-size': '32px'
       };
     },
     getConditionalAppearance(cell) {
@@ -96,12 +96,12 @@ export default {
       } else {
         const { value } = cell;
         if(value < 20) {
-          return { font: 'e7000a', fill: 'FFC7CE' , bold: true};
+          return { font: '#ffff00', fill: 'FFC7CE', bold: true};
         }
         if(value > 25) {
-          return { font: '01e001', fill: 'C6EFCE', bold: true };
+          return { font: '#03fd50', fill: 'C6EFCE', bold: true };
         }
-        return { font: '0d5dff', fill: 'FFEB9C', bold: true };
+        return { font: '#07edf9', fill: 'FFEB9C', bold: true };
       }
     }
   }
@@ -110,6 +110,8 @@ export default {
 <style scoped>
 #pivot {
   text-align: center !important;
-  font-size: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  font-family: "Expo M",serif;
 }
 </style>
