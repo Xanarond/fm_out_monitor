@@ -1,5 +1,5 @@
 <template>
-  <md-toolbar class="md-primary">
+  <md-toolbar class="md-primary" id="navigation">
     <div class="md-toolbar-section-start">
       <a href="/"><h2 class="md-title">Outbound status Dashboard</h2></a>
     </div>
@@ -12,6 +12,9 @@
     <a href="/dayp"><md-button>Day Pivot</md-button></a>
     <a href="/nightp">
       <md-button class="md-accent">Night Pivot</md-button>
+    </a>
+    <a href="/progress">
+      <md-button class="md-accent">Progress</md-button>
     </a>
   </md-toolbar>
 
