@@ -1,45 +1,57 @@
 <template>
-  <div class="chart" style="background: #605f5f">
-    <b-row>
-      <b-col class="border-right h-75 mt-5">
-        <b-row class="pt-5">
-          <b-col class="m-auto"><h2>Shift Target</h2></b-col>
-          <b-col>
-            <div>
-              <hr/>
-            </div>
-          </b-col>
-          <b-col cols="12">
-            <h1 style="font-size: 90px;">{{ total }}</h1>
-          </b-col>
-        </b-row>
-        <b-row class="pt-5">
-          <b-col class="m-auto"><h2>Complete</h2></b-col>
-          <b-col>
-            <div>
-              <hr/>
-            </div>
-          </b-col>
-          <b-col cols="12">
-            <h1 style="font-size: 90px;">{{ complete }}</h1>
-          </b-col>
-        </b-row>
-        <b-row class="pt-5">
-          <b-col class="m-auto"><h2>Progress Rate</h2></b-col>
-          <b-col>
-            <div>
-              <hr/>
-            </div>
-          </b-col>
-          <b-col cols="12">
-            <h1 style="font-size: 90px;">{{ progress }}</h1>
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-col cols="9">
-        <apexcharts height="700" type="bar" :options="chartOptions" :series="series"></apexcharts>
-      </b-col>
+  <div>
+    <b-row class="justify-content-center pb-3">
+      <div class="d-inline-block  mt-auto mb-auto" style="color: #fff">Period:</div>
+      <VueCtkDateTimePicker :noHeader=true :noButton=true :range=true :noValueToCustomElem=true
+                            :label="'Select Date'" :dark=true
+                            class="justify-content-start d-inline-block mt-auto mb-auto"
+                            style="width: 380px;margin:0 5px 5px;"/>
+      <button type="button" class="d-inline-block ml-1 mt-auto mb-auto btn btn-secondary text-white mr-2"
+              v-on:click="getDate()">Refresh
+      </button>
     </b-row>
+    <div class="chart" style="background: #605f5f">
+      <b-row>
+        <b-col class="border-right h-75 mt-5">
+          <b-row class="pt-5">
+            <b-col class="m-auto"><h2>Shift Target</h2></b-col>
+            <b-col>
+              <div>
+                <hr/>
+              </div>
+            </b-col>
+            <b-col cols="12">
+              <h1 style="font-size: 90px;">{{ total }}</h1>
+            </b-col>
+          </b-row>
+          <b-row class="pt-5">
+            <b-col class="m-auto"><h2>Complete</h2></b-col>
+            <b-col>
+              <div>
+                <hr/>
+              </div>
+            </b-col>
+            <b-col cols="12">
+              <h1 style="font-size: 90px;">{{ complete }}</h1>
+            </b-col>
+          </b-row>
+          <b-row class="pt-5">
+            <b-col class="m-auto"><h2>Progress Rate</h2></b-col>
+            <b-col>
+              <div>
+                <hr/>
+              </div>
+            </b-col>
+            <b-col cols="12">
+              <h1 style="font-size: 90px;">{{ progress }}</h1>
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col cols="9">
+          <apexcharts height="700" type="bar" :options="chartOptions" :series="series"></apexcharts>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 <script>

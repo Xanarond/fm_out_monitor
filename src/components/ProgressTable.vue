@@ -4,10 +4,10 @@
       <h1 class="pb-3 pl-3" id="progress">Outbound Progress monitoring</h1>
       <b-row class="pb-3 pr-3 pl-3" id="sub-head">
         <b-col>
-          <h2 class="text-left">PGI: XX.XX.XX HH.MM</h2>
+          <h2 class="text-left">PGI: {{ date }}</h2>
         </b-col>
         <b-col>
-          <h2 class="text-right">09:20</h2>
+          <h2 class="text-right">{{ hour }}</h2>
         </b-col>
       </b-row>
       <b-col class="pb-1">
@@ -40,20 +40,39 @@ export default {
   name: "ProgressTable",
   data() {
     return {
-      fields: ['Con No', 'PGI Datetime', 'To be Picked', 'To be Consol', 'Rack', 'Mezz', 'HVA', 'Status'],
+      fields: [{
+        key: 'Con No',
+        sortable: true,
+        filterByFormatted: true
+      },
+        {
+          key: 'PGI Datetime',
+          sortable: true,
+          filterByFormatted: true
+        }, 'To be Picked', 'To be Consol', 'Rack', 'Mezz', 'HVA', 'Status'],
       total_fields: ['target', 'total'],
       tableVariant: 'dark',
       col: 'dark',
-      items: []
+      items: [],
+      date: '',
+      hour: '',
     }
   },
   methods: {
     getCounters() {
       http.get("/refreshProgress", {})
           .then(res => {
-            console.log(res.data)
             this.items = res.data
 
+            let dates = []
+            let hours = []
+            res.data.forEach((item => {
+              dates.push(item['PGI Datetime'].slice(0, 10))
+              hours.push(item['PGI Datetime'].slice(11, 16))
+            }))
+
+            this.hour = hours.slice(-1)[0]
+            this.date = dates.slice(-1)[0]
             $(() => {
               $('td:contains("All Con")').css('color', '#ffff00')
               // $('td:last-child').css('color', '#ffff00')

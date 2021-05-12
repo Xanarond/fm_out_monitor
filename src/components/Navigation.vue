@@ -1,23 +1,45 @@
 <template>
-  <md-toolbar class="md-primary" id="navigation">
-    <div class="md-toolbar-section-start">
-      <a href="/"><h2 class="md-title">Outbound status Dashboard</h2></a>
-    </div>
-    <a href="/day">
-      <md-button>Day Shift</md-button>
-    </a>
-    <a href="/night">
-      <md-button class="md-primary">Night Shift</md-button>
-    </a>
-    <a href="/dayp"><md-button>Day Pivot</md-button></a>
-    <a href="/nightp">
-      <md-button class="md-accent">Night Pivot</md-button>
-    </a>
-    <a href="/progress">
-      <md-button class="md-accent">Progress</md-button>
-    </a>
-  </md-toolbar>
-
+  <div>
+    <md-toolbar class="md-primary" id="navigation">
+      <div class="md-toolbar-section-start">
+        <a href="/"><h2 class="md-title">Outbound status Dashboard</h2></a>
+      </div>
+      <md-menu md-size="auto" md-align-trigger>
+        <md-button md-menu-trigger>Packing</md-button>
+        <md-menu-content>
+          <md-menu-item href="/day">
+            Day Shift
+          </md-menu-item>
+          <md-menu-item href="/night">Night Shift</md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu md-size="auto" md-align-trigger>
+        <md-button md-menu-trigger>Picking</md-button>
+        <md-menu-content>
+          <md-menu-item href="/dayp">
+            Day Shift
+          </md-menu-item>
+          <md-menu-item href="/nightp">
+            Night Shift
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu md-size="auto" md-align-trigger class="pr-1">
+        <md-button md-menu-trigger>Progress</md-button>
+        <md-menu-content>
+          <md-menu-item href="/monitor">
+            Monitoring
+          </md-menu-item>
+          <md-menu-item to="/status">
+            Status
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </md-toolbar>
+<!--    <div class="align-content-end">
+      <md-button class="align-content-end">Show</md-button>
+    </div>-->
+  </div>
 </template>
 
 <script>
@@ -27,5 +49,15 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: #000;
+}
 
+/*#navigation{
+  display: none;
+}
+#navigation:hover{
+  display: block;
+}*/
 </style>

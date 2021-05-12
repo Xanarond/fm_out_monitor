@@ -19,7 +19,7 @@ export default new Router({
         {path: "/night", component: NightShiftChartPage},
         {path: "/dayp", component: DayShiftPivotPage},
         {path: "/nightp", component: NightShiftPivotPage},
-        {path: "/progress", component: PickingPage},
+        {path: "/monitor", component: PickingPage},
         {path: '*', component: PageNotFound}
     ]
 });
