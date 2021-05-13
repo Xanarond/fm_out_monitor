@@ -47,9 +47,7 @@ export default {
       },
         {
           key: 'PGI Datetime',
-          sortable: true,
-          filterByFormatted: true
-        }, 'To be Picked', 'To be Consol', 'Rack', 'Mezz', 'HVA', 'Status'],
+        }, 'Total', 'To Be Picked', 'To Be Consol', 'Rack', 'Mezz', 'HVA', 'Status'],
       total_fields: ['target', 'total'],
       tableVariant: 'dark',
       col: 'dark',
@@ -62,8 +60,6 @@ export default {
     getCounters() {
       http.get("/refreshProgress", {})
           .then(res => {
-            this.items = res.data
-
             let dates = []
             let hours = []
             res.data.forEach((item => {
@@ -71,13 +67,17 @@ export default {
               hours.push(item['PGI Datetime'].slice(11, 16))
             }))
 
+            this.items = res.data
             this.hour = hours.slice(-1)[0]
             this.date = dates.slice(-1)[0]
+
             $(() => {
-              $('td:contains("All Con")').css('color', '#ffff00')
-              // $('td:last-child').css('color', '#ffff00')
+              $('td:contains("All Consoled")').css('color', '#ffff00')
+              $('td:contains("All Picked")').css('color', '#0857cf')
+              $('td:contains("Progress")').css('color', '#fff')
             });
           })
+
           .catch((e) => {
             return e === 'Нет ответа от сервера'
           })
@@ -96,10 +96,10 @@ export default {
   },
   mounted() {
     this.getCounters();
-    // this.startTimer()
+    this.startTimer()
   },
   beforeDestroy() {
-    // this.stopTimer()
+    this.stopTimer()
   }
 }
 </script>
