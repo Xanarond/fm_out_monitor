@@ -47,7 +47,11 @@ export default {
       },
         {
           key: 'PGI Datetime',
-        }, 'Total', 'To Be Picked', 'To Be Consol', 'Rack', 'Mezz', 'HVA', 'Status'],
+        }, 'Total', 'To Be Picked', 'To Be Consol', 'Rack', 'Mezz', 'HVA',
+        {
+          key: 'Status',
+          sortable: true,
+        }],
       total_fields: ['target', 'total'],
       tableVariant: 'dark',
       col: 'dark',
@@ -73,7 +77,7 @@ export default {
 
             $(() => {
               $('td:contains("All Consoled")').css('color', '#ffff00')
-              $('td:contains("All Picked")').css('color', '#0857cf')
+              $('td:contains("All Picked")').css('color', '#00ffff')
               $('td:contains("Progress")').css('color', '#fff')
             });
           })
@@ -120,5 +124,9 @@ export default {
 
 table {
   font-weight: bold;
+}
+
+.out_table{
+  font-size: 32px;
 }
 </style>
