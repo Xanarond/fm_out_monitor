@@ -3,8 +3,13 @@
     <b-container fluid="">
       <h1 class="pb-3 pl-3" id="progress">Outbound Progress monitoring</h1>
       <b-row class="pb-3 pr-3 pl-3" id="sub-head">
-        <b-col>
+        <b-col cols="3">
           <h2 class="text-left">PGI: {{ date }}</h2>
+        </b-col>
+        <b-col cols="2">
+          <b-form-select id="form" :options="counts"
+                         v-model="filter.count"
+          ></b-form-select>
         </b-col>
         <b-col>
           <h2 class="text-right">{{ hour }}</h2>
@@ -18,6 +23,7 @@
             :items="items"
             :table-variant="tableVariant"
             class="out_table"
+            :filter="filter.count"
             striped hover
         >
           <b-tr>
@@ -58,6 +64,31 @@ export default {
       items: [],
       date: '',
       hour: '',
+      filter: {
+        count: null,
+      },
+      counts: [
+        {
+          text: 'All',
+          value: null
+        },
+        {
+          text: 'Moscow',
+          value: 'MCK'
+        },
+        {
+          text: 'Region',
+          value: 'REG'
+        },
+        {
+          text: 'Air',
+          value: 'AIR'
+        },
+        {
+          text: 'Vir',
+          value: 'VIR'
+        }
+      ],
     }
   },
   methods: {
@@ -96,7 +127,7 @@ export default {
       this.interval = window.setInterval(() => {
         this.getCounters()
       }, 5000)
-    }
+    },
   },
   mounted() {
     this.getCounters();
@@ -116,6 +147,12 @@ export default {
   font-family: "Expo M", serif;
 }
 
+#form {
+  background-color: #ff0000;
+  font-size: 32px;
+  color: #fff
+}
+
 #sub-head h2 {
   color: #d8d8d8 !important;
   font-size: 32px !important;
@@ -126,7 +163,19 @@ table {
   font-weight: bold;
 }
 
-.out_table{
+.out_table {
   font-size: 32px;
+}
+
+@media (max-width: 1600px) {
+  .out_table {
+    font-size: 18px;
+  }
+
+  #form {
+    background-color: #ff0000;
+    font-size: 18px;
+    color: #fff
+  }
 }
 </style>
