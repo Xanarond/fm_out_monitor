@@ -53,10 +53,11 @@ export default {
       },
         {
           key: 'PGI Datetime',
-        }, 'Total', 'To Be Picked', 'To Be Consol', 'Rack', 'Mezz', 'HVA',
+        }, 'Total', 'To Be Picked', 'To Be Consol', 'Rack', 'Mezz', 'HVA', 'Packing Status', 'Manifest Packing Status',
         {
           key: 'Status',
           sortable: true,
+
         }],
       total_fields: ['target', 'total'],
       tableVariant: 'dark',
