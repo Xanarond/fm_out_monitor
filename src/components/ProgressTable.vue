@@ -26,12 +26,6 @@
             :filter="filter.count"
             striped hover
         >
-          <b-tr>
-            <b-th colspan="5"><span class="sr-only">Name and ID</span></b-th>
-            <b-th variant="secondary">Type 1</b-th>
-            <b-th variant="primary" colspan="4">Type 2</b-th>
-            <b-th variant="danger">Type 3</b-th>
-          </b-tr>
         </b-table>
       </b-col>
     </b-container>
@@ -52,13 +46,13 @@ export default {
         filterByFormatted: true
       },
         {
-          key: 'PGI Datetime',
-        }, 'Total', 'To Be Picked', 'To Be Consol', 'Packing Status', 'Manifest Packing Status',
-        {
           key: 'Status',
           sortable: true,
-
-        }],
+        },
+        {
+          key: 'PGI Datetime',
+        }, 'Total', 'To Be Picked', 'To Be Consol', 'Packing Status', 'Manifest Packing Status',
+      ],
       total_fields: ['target', 'total'],
       tableVariant: 'dark',
       col: 'dark',
@@ -67,6 +61,7 @@ export default {
       hour: '',
       filter: {
         count: null,
+        timestamp: null
       },
       counts: [
         {
@@ -90,6 +85,17 @@ export default {
           value: 'VIR'
         }
       ],
+      timestamp_val: '',
+      timestamp: [
+        {
+          text: 'All',
+          value: null
+        },
+        {
+          text: this.timestamp_val,
+          value: null
+        }
+      ]
     }
   },
   methods: {
@@ -102,7 +108,8 @@ export default {
               dates.push(item['PGI Datetime'].slice(0, 10))
               hours.push(item['PGI Datetime'].slice(11, 16))
             }))
-
+            this.timestamp_val = res.data.slice(-1)[0]['PGI Datetime']
+            console.log(res.data.slice(-1)[0]['PGI Datetime'])
             this.items = res.data
             this.hour = hours.slice(-1)[0]
             this.date = dates.slice(-1)[0]
@@ -111,6 +118,9 @@ export default {
               $('td:contains("All Consoled")').css('color', '#ffff00')
               $('td:contains("All Picked")').css('color', '#00ffff')
               $('td:contains("Progress")').css('color', '#fff')
+              $('td:contains("Completed")').css('color', '#ffff00')
+              $('td:contains("Not Packed")').css('color', '#00ffff')
+              $('td:contains("In Progress")').css('color', '#fff')
             });
           })
 
@@ -149,14 +159,14 @@ export default {
 }
 
 #form {
-  background-color: #ff0000;
-  font-size: 32px;
+  background-color: #6d6d6d;
+  font-size: 30px;
   color: #fff
 }
 
 #sub-head h2 {
   color: #d8d8d8 !important;
-  font-size: 32px !important;
+  font-size: 50px !important;
   font-weight: bold;
 }
 
@@ -165,18 +175,24 @@ table {
 }
 
 .out_table {
-  font-size: 30px;
+  font-size: 32px;
 }
 
 @media (max-width: 1600px) {
   .out_table {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   #form {
-    background-color: #ff0000;
+    background-color: #6d6d6d;
     font-size: 18px;
     color: #fff
+  }
+
+  #sub-head h2 {
+    color: #d8d8d8 !important;
+    font-size: 32px !important;
+    font-weight: bold;
   }
 }
 </style>
