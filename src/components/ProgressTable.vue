@@ -53,7 +53,7 @@ export default {
       },
         {
           key: 'PGI Datetime',
-        }, 'Total', 'To Be Picked', 'To Be Consol', 'Rack', 'Mezz', 'HVA', 'Packing Status', 'Manifest Packing Status',
+        }, 'Total', 'To Be Picked', 'To Be Consol', 'Packing Status', 'Manifest Packing Status',
         {
           key: 'Status',
           sortable: true,
@@ -165,12 +165,12 @@ table {
 }
 
 .out_table {
-  font-size: 32px;
+  font-size: 30px;
 }
 
 @media (max-width: 1600px) {
   .out_table {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   #form {
