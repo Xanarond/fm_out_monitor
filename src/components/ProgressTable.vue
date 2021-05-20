@@ -1,30 +1,33 @@
 <template>
   <div>
     <b-container fluid="">
-      <h1 class="pb-3 pl-3" id="progress">Outbound Progress monitoring</h1>
-      <b-row class="pb-3 pr-3 pl-3" id="sub-head">
+      <h1 id="progress" class="pb-3 pl-3">Outbound Progress monitoring</h1>
+      <b-row id="sub-head" class="pb-3 pr-3 pl-3">
         <b-col cols="3">
           <h2 class="text-left">PGI: {{ date }}</h2>
         </b-col>
         <b-col cols="2">
-          <b-form-select id="form" :options="counts"
-                         v-model="filter.count"
+          <b-form-select id="form" v-model="filter.count"
+                         :options="counts"
           ></b-form-select>
         </b-col>
-        <b-col>
-          <h2 class="text-right">{{ hour }}</h2>
+        <b-col cols="2">
+          <b-form-select id="form" v-model="filter.timestamp"
+                         :options="timestamp"
+          ></b-form-select>
         </b-col>
       </b-row>
       <b-col class="pb-1">
         <b-table
             :bordered="true"
             :fields="fields"
+            :filter="filter"
+            :filter-function="filterFunction"
             :head-variant="col"
             :items="items"
             :table-variant="tableVariant"
             class="out_table"
-            :filter="filter.count"
-            striped hover
+            hover striped
         >
         </b-table>
       </b-col>
@@ -77,22 +80,17 @@ export default {
           value: 'REG'
         },
         {
-          text: 'Air',
+          text: 'AIR',
           value: 'AIR'
         },
         {
-          text: 'Vir',
+          text: 'VIR',
           value: 'VIR'
         }
       ],
-      timestamp_val: '',
       timestamp: [
         {
           text: 'All',
-          value: null
-        },
-        {
-          text: this.timestamp_val,
           value: null
         }
       ]
@@ -102,14 +100,35 @@ export default {
     getCounters() {
       http.get("/refreshProgress", {})
           .then(res => {
+
             let dates = []
             let hours = []
+
+            let timestamp = new Set()
+
             res.data.forEach((item => {
               dates.push(item['PGI Datetime'].slice(0, 10))
               hours.push(item['PGI Datetime'].slice(11, 16))
+              timestamp.add(item['PGI Datetime'])
             }))
-            this.timestamp_val = res.data.slice(-1)[0]['PGI Datetime']
-            console.log(res.data.slice(-1)[0]['PGI Datetime'])
+
+            let timestamp_val = [...timestamp]
+            let day_ts = [{
+              text: 'All',
+              value: null
+            },]
+
+            for (let i = 0; i <= timestamp_val.length - 1; i++) {
+
+              let timestamp_obj = {
+                text: timestamp_val[i],
+                value: timestamp_val[i],
+              }
+
+              day_ts.push(timestamp_obj);
+            }
+
+            this.timestamp = day_ts
             this.items = res.data
             this.hour = hours.slice(-1)[0]
             this.date = dates.slice(-1)[0]
@@ -128,6 +147,15 @@ export default {
             return e === 'Нет ответа от сервера'
           })
     },
+    filterFunction(row, val) {
+      const {count: c, timestamp: t} = val;
+      // console.log(val.count, row[`Con No`].slice(0, 3), row[`PGI Datetime`])
+      return [
+        !c || c === row[`Con No`].slice(0, 3),
+        !t || t === row[`PGI Datetime`],
+      ].every(Boolean);
+    },
+
     stopTimer() {
       if (this.interval) {
         window.clearInterval(this.interval)

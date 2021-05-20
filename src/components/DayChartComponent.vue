@@ -2,11 +2,11 @@
   <div class="chart">
     <b-row class="justify-content-center pb-3">
       <div class="d-inline-block  mt-auto mb-auto" style="color: #fff">Period:</div>
-      <VueCtkDateTimePicker :noHeader=true :noButton=true :range=true :noValueToCustomElem=true
-                            :label="'Select Date'" :dark=true
+      <VueCtkDateTimePicker :dark=true :label="'Select Date'" :noButton=true :noHeader=true
+                            :noValueToCustomElem=true :range=true
                             class="justify-content-start d-inline-block mt-auto mb-auto"
                             style="width: 380px;margin:0 5px 5px;"/>
-      <button type="button" class="d-inline-block ml-1 mt-auto mb-auto btn btn-secondary text-white mr-2"
+      <button class="d-inline-block ml-1 mt-auto mb-auto btn btn-secondary text-white mr-2" type="button"
               v-on:click="getDate()">Refresh
       </button>
     </b-row>
@@ -47,7 +47,7 @@
         </b-row>
       </b-col>
       <b-col cols="9">
-        <apexcharts height="700" type="bar" :options="chartOptions" :series="series"></apexcharts>
+        <apexcharts :options="chartOptions" :series="series" height="700" type="bar"></apexcharts>
       </b-col>
     </b-row>
   </div>

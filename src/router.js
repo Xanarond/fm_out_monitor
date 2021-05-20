@@ -8,18 +8,17 @@ import DayShiftPivotPage from "./pages/DayShiftPivotPage";
 import NightShiftPivotPage from "./pages/NightShiftPivotPage";
 import PickingPage from "@/pages/PickingPage";
 
-
 Vue.use(Router);
 
 export default new Router({
-    mode: "history",
-    routes: [
-        {path: "/", component: TablePage,},
-        {path: "/day", component: DayShiftChartPage},
-        {path: "/night", component: NightShiftChartPage},
-        {path: "/dayp", component: DayShiftPivotPage},
-        {path: "/nightp", component: NightShiftPivotPage},
-        {path: "/monitor", component: PickingPage},
-        {path: '*', component: PageNotFound}
-    ]
+  mode: "history",
+  routes: [
+    { path: "/", component: TablePage },
+    { path: "/day", component: DayShiftChartPage },
+    { path: "/night", component: NightShiftChartPage },
+    { path: "/dayp", component: DayShiftPivotPage },
+    { path: "/nightp", component: NightShiftPivotPage },
+    { path: "/monitor", component: PickingPage },
+    { path: "*", component: PageNotFound }
+  ]
 });

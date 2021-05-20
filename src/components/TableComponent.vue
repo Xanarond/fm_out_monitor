@@ -219,11 +219,11 @@ export default {
             }, 0);
 
             let total_night = night_res.reduce((sum, cur) => {
-             return sum + cur
+              return sum + cur
             }, 0);
 
             //let target_sum = target.reduce((sum, cur) => {
-              //return sum + cur
+            //return sum + cur
             //}, 0);
 
             let sum_day = []

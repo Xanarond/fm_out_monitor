@@ -1,10 +1,10 @@
 <template>
   <div>
-    <md-toolbar class="md-primary" id="navigation">
+    <md-toolbar id="navigation" class="md-primary">
       <div class="md-toolbar-section-start">
         <a href="/"><h2 class="md-title">Outbound status Dashboard</h2></a>
       </div>
-      <md-menu md-size="auto" md-align-trigger>
+      <md-menu md-align-trigger md-size="auto">
         <md-button md-menu-trigger>Packing</md-button>
         <md-menu-content>
           <md-menu-item href="/day">
@@ -13,7 +13,7 @@
           <md-menu-item href="/night">Night Shift</md-menu-item>
         </md-menu-content>
       </md-menu>
-      <md-menu md-size="auto" md-align-trigger>
+      <md-menu md-align-trigger md-size="auto">
         <md-button md-menu-trigger>Picking</md-button>
         <md-menu-content>
           <md-menu-item href="/dayp">
@@ -24,7 +24,7 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
-      <md-menu md-size="auto" md-align-trigger class="pr-1">
+      <md-menu class="pr-1" md-align-trigger md-size="auto">
         <md-button md-menu-trigger>Progress</md-button>
         <md-menu-content>
           <md-menu-item href="/monitor">
@@ -36,9 +36,9 @@
         </md-menu-content>
       </md-menu>
     </md-toolbar>
-<!--    <div class="align-content-end">
-      <md-button class="align-content-end">Show</md-button>
-    </div>-->
+    <!--    <div class="align-content-end">
+          <md-button class="align-content-end">Show</md-button>
+        </div>-->
   </div>
 </template>
 
