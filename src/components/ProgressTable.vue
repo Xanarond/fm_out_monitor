@@ -147,15 +147,19 @@ export default {
             return e === 'Нет ответа от сервера'
           })
     },
+    /**
+     *
+     * @param row поля исходной таблицы
+     * @param val фильтр
+     * @returns {boolean} значение при (не)совпадении строк
+     */
     filterFunction(row, val) {
       const {count: c, timestamp: t} = val;
-      // console.log(val.count, row[`Con No`].slice(0, 3), row[`PGI Datetime`])
       return [
         !c || c === row[`Con No`].slice(0, 3),
         !t || t === row[`PGI Datetime`],
       ].every(Boolean);
     },
-
     stopTimer() {
       if (this.interval) {
         window.clearInterval(this.interval)
