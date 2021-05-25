@@ -3,6 +3,7 @@
     <b-row class="justify-content-center pb-3">
       <div class="d-inline-block  mt-auto mb-auto" style="color: #fff">Period:</div>
       <VueCtkDateTimePicker :dark=true :label="'Select Date'" :noButton=true :noHeader=true
+                            v-model="date" formatted="L"
                             :noValueToCustomElem=true :range=true
                             class="justify-content-start d-inline-block mt-auto mb-auto"
                             style="width: 380px;margin:0 5px 5px;"/>
@@ -55,6 +56,7 @@
 <script>
 import VueApexCharts from 'vue-apexcharts'
 import http from "@/http-common";
+import moment from "moment";
 
 export default {
   name: 'DayChartComponent',
@@ -68,6 +70,10 @@ export default {
       progress: '',
       max_target: '',
       min_target: '',
+      date: {
+        start: moment().subtract(1, 'year').format('YYYY-MM-DD hh:mm:ss'),// moment(new Date()).weekday(-2).format('YYYY-MM-DD'),
+        end: moment().format('YYYY-MM-DD hh:mm:ss')// moment(new Date()).weekday(5).format('YYYY-MM-DD')
+      },
       chartOptions: {
         chart: {
           id: 'bar',
@@ -215,6 +221,21 @@ export default {
             this.complete = new Intl.NumberFormat('en-US').format(com)
             this.progress = Math.floor((com / this.total) * 100) + '%'
 
+          })
+          .catch((e) => {
+            return e === 'Нет ответа от сервера'
+          })
+    },
+    getDate() {
+      http.get("/getPackingShifts", {
+        params: {
+          start: this.$data.date.start.slice(0, 10),
+          end: this.$data.date.end.slice(0, 10),
+        }
+      })
+          .then(res => {
+            //результирующий массив из БД
+            console.log(res.data)
           })
           .catch((e) => {
             return e === 'Нет ответа от сервера'
