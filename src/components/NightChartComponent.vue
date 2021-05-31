@@ -3,7 +3,8 @@
     <b-row class="justify-content-center pb-3">
       <div class="d-inline-block  mt-auto mb-auto" style="color: #fff">Period:</div>
       <VueCtkDateTimePicker :dark=true :label="'Select Date'" :noButton=true :noHeader=true
-                            :noValueToCustomElem=true :range=true
+                            v-model="period" formatted="L"
+                            :noValueToCustomElem=true :onlyDate=true
                             class="justify-content-start d-inline-block mt-auto mb-auto"
                             style="width: 380px;margin:0 5px 5px;"/>
       <button class="d-inline-block ml-1 mt-auto mb-auto btn btn-secondary text-white mr-2" type="button"
@@ -57,6 +58,7 @@
 <script>
 import VueApexCharts from 'vue-apexcharts'
 import http from "@/http-common";
+import moment from "moment";
 
 export default {
   name: 'NightChartComponent',
@@ -70,6 +72,7 @@ export default {
       progress: '',
       max_target: 500,
       min_target: '',
+      period: moment().format('YYYY-MM-DD'),
       chartOptions: {
         chart: {
           id: 'bar',
@@ -181,7 +184,7 @@ export default {
   },
   mounted() {
     this.getCounters();
-    this.startTimer()
+    // this.startTimer()
   },
   beforeDestroy() {
     this.stopTimer()
@@ -196,22 +199,19 @@ export default {
       return time_zone.slice(20, 24).concat(time_zone.slice(0, 8))
     },
     getCounters() {
-      http.get("/refreshDB", {})
+      http.get("/refreshDB")
           .then(res => {
             //результирующий массив из БД
             let shifts = []
-            res.data.shift_stat.forEach((item => {
-              shifts.push(item.result)
-            }))
+            res.data.shift_stat.forEach((item => shifts.push(item.result)))
             this.series = [{
               data: shifts.slice(20, 24).concat(shifts.slice(0, 8))
             }]
 
             // суммы для результатов
             let night_s = shifts.slice(20, 24).concat(shifts.slice(0, 8))
-            let com = night_s.reduce((sum, cur) => {
-              return sum + cur
-            }, 0)
+            let com = night_s.reduce((sum, cur) => sum + cur, 0)
+
             this.max_target = this.total / 12
             this.min_target = this.max_target - 50
             this.complete = new Intl.NumberFormat('en-US').format(com)
@@ -221,6 +221,52 @@ export default {
           .catch((e) => {
             return e === 'Нет ответа от сервера'
           })
+    },
+    getDate() {
+      http.get("/getPackingShifts", {
+        params: {
+          period: this.$data.period.slice(0, 10),
+        }
+      }).then(res => {
+
+        //результирующий массив из БД
+        let shifts = []
+
+        //обработка результирующего массива и создание на его основе обьектов - время, значение
+        res.data.forEach((item => {
+          item.forEach(i => {
+            if (i.pack_time <= '20:00:00' && i.pack_time >= '07:00:00') {
+              let obj = {
+                time: i.pack_time,
+                result: parseInt(i.result)
+              }
+              shifts.push(obj)
+            }
+          })
+        }))
+
+        //сортировка обьектов по времени / obj sort by timestamp
+        let sorted_shift = shifts.sort(((a, b) => a.time > b.time))
+        let res_shift = [] // отсортированое время
+        sorted_shift.forEach(i => res_shift.push(i.result))
+
+        let null_arr = Array(12).fill(0)
+
+        null_arr.forEach((value, index) => null_arr[index] = res_shift[index] || 0)
+
+        //заполнение значениями
+        this.series = [{
+          data: null_arr
+        }]
+
+        // суммы для результатов
+        let com = res_shift.reduce((sum, cur) => sum + cur, 0)
+        this.complete = new Intl.NumberFormat('en-US').format(com)
+        this.progress = Math.floor((com / this.total) * 100) + '%'
+
+      }).catch((e) => {
+        return e === 'Нет ответа от сервера'
+      })
     },
     stopTimer() {
       if (this.interval) {

@@ -86,17 +86,11 @@ export default {
     }
 
     // суммы для результатов
-    let total_day = rand_int.reduce((sum, cur) => {
-      return sum + cur
-    }, 0);
+    let total_day = rand_int.reduce((sum, cur) => sum + cur, 0);
 
-    let total_night = rand_int2.reduce((sum, cur) => {
-      return sum + cur
-    }, 0);
+    let total_night = rand_int2.reduce((sum, cur) => sum + cur, 0);
 
-    let target_sum = target.reduce((sum, cur) => {
-      return sum + cur
-    }, 0);
+    let target_sum = target.reduce((sum, cur) => sum + cur, 0);
 
     let sum_day = []
     let sum_night = []
@@ -200,10 +194,10 @@ export default {
             // задаем массивы для временных промежутков
             let time_zone = []
 
-            res.data.shift_stat.forEach((item => {
+            res.data.shift_stat.forEach(item => {
               shifts.push(item.result)
               time_zone.push(item.time)
-            }))
+            })
 
             let day_shift = time_zone.slice(8, 20)
             let night_shift = time_zone.slice(20, 24).concat(time_zone.slice(0, 8))
@@ -214,13 +208,9 @@ export default {
             // console.log(day_res, night_res)
 
             // суммы для результатов
-            let total_day = day_res.reduce((sum, cur) => {
-              return sum + cur
-            }, 0);
+            let total_day = day_res.reduce((sum, cur) => sum + cur, 0);
 
-            let total_night = night_res.reduce((sum, cur) => {
-              return sum + cur
-            }, 0);
+            let total_night = night_res.reduce((sum, cur) => sum + cur, 0);
 
             //let target_sum = target.reduce((sum, cur) => {
             //return sum + cur
