@@ -2,10 +2,10 @@
   <div>
     <b-row class="justify-content-center pb-3">
       <div class="d-inline-block  mt-auto mb-auto" style="color: #fff">Period:</div>
-      <VueCtkDateTimePicker :dark=true :label="'Select Date'" :noButton=true :noHeader=true
-                            v-model="period" formatted="L"
-                            :noValueToCustomElem=true :onlyDate=true
-                            class="justify-content-start d-inline-block mt-auto mb-auto"
+      <VueCtkDateTimePicker v-model="period" :dark=true :label="'Select Date'" :noButton=true
+                            :noHeader=true :noValueToCustomElem=true
+                            :onlyDate=true class="justify-content-start d-inline-block mt-auto mb-auto"
+                            formatted="L"
                             style="width: 380px;margin:0 5px 5px;"/>
       <button class="d-inline-block ml-1 mt-auto mb-auto btn btn-secondary text-white mr-2" type="button"
               v-on:click="getDate()">Refresh
@@ -57,7 +57,7 @@
 </template>
 <script>
 import VueApexCharts from 'vue-apexcharts'
-import http from "@/http-common";
+import http from "../http-common";
 import moment from "moment";
 
 export default {
@@ -201,14 +201,14 @@ export default {
     getCounters() {
       http.get("/refreshDB")
           .then(res => {
-            //результирующий массив из БД
+            // the resulting array from the database
             let shifts = []
             res.data.shift_stat.forEach((item => shifts.push(item.result)))
             this.series = [{
               data: shifts.slice(20, 24).concat(shifts.slice(0, 8))
             }]
 
-            // суммы для результатов
+            // amounts for results
             let night_s = shifts.slice(20, 24).concat(shifts.slice(0, 8))
             let com = night_s.reduce((sum, cur) => sum + cur, 0)
 
@@ -229,23 +229,23 @@ export default {
         }
       }).then(res => {
 
-        //результирующий массив из БД
+        // the resulting array from the database
         let shifts = []
 
-        //обработка результирующего массива и создание на его основе обьектов - время, значение
-        res.data.forEach((item => {
-          item.forEach(i => {
-            if (i.pack_time <= '20:00:00' && i.pack_time >= '07:00:00') {
+        // processing the resulting array and creating object based on  - time, value
+        res.data.forEach(item => {
+          item.forEach(({pack_time, result}) => {
+            if (pack_time <= '20:00:00' && pack_time >= '07:00:00') {
               let obj = {
-                time: i.pack_time,
-                result: parseInt(i.result)
+                time: pack_time,
+                result: parseInt(result)
               }
               shifts.push(obj)
             }
           })
-        }))
+        })
 
-        //сортировка обьектов по времени / obj sort by timestamp
+        //obj sort by timestamp
         let sorted_shift = shifts.sort(((a, b) => a.time > b.time))
         let res_shift = [] // отсортированое время
         sorted_shift.forEach(i => res_shift.push(i.result))
@@ -254,12 +254,11 @@ export default {
 
         null_arr.forEach((value, index) => null_arr[index] = res_shift[index] || 0)
 
-        //заполнение значениями
         this.series = [{
           data: null_arr
         }]
 
-        // суммы для результатов
+        // amounts for results
         let com = res_shift.reduce((sum, cur) => sum + cur, 0)
         this.complete = new Intl.NumberFormat('en-US').format(com)
         this.progress = Math.floor((com / this.total) * 100) + '%'

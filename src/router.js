@@ -1,12 +1,12 @@
 import Vue from "vue";
 import Router from "vue-router";
-import TablePage from "@/pages/TablePage";
-import PageNotFound from "@/pages/PageNotFound";
-import DayShiftChartPage from "@/pages/DayShiftChartPage";
-import NightShiftChartPage from "@/pages/NightShiftChartPage";
+import TablePage from "../src/pages/TablePage";
+import PageNotFound from "../src/pages/PageNotFound";
+import DayShiftChartPage from "../src/pages/DayShiftChartPage";
+import NightShiftChartPage from "../src/pages/NightShiftChartPage";
 import DayShiftPivotPage from "./pages/DayShiftPivotPage";
 import NightShiftPivotPage from "./pages/NightShiftPivotPage";
-import PickingPage from "@/pages/PickingPage";
+import PickingPage from "../src/pages/PickingPage";
 
 Vue.use(Router);
 

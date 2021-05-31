@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import DayChartComponent from "@/components/DayChartComponent";
+import DayChartComponent from "../components/DayChartComponent";
 
 export default {
   name: "ChartPage",
