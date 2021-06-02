@@ -49,7 +49,6 @@
   "eslintConfig": {
     "root": true,
     "env": {
-      "vue": true,
       "node": true
     },
     "extends": [

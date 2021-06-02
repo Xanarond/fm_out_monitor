@@ -56,7 +56,7 @@
   </div>
 </template>
 <script>
-import VueApexCharts from 'vue-apexcharts'
+import VueApexCharts from 'vue-apexcharts';
 import http from "../http-common";
 import moment from "moment";
 
@@ -72,7 +72,8 @@ export default {
       progress: '',
       max_target: 500,
       min_target: '',
-      period: moment().format('YYYY-MM-DD'),
+      period: moment()
+          .format('YYYY-MM-DD'),
       chartOptions: {
         chart: {
           id: 'bar',
@@ -82,7 +83,7 @@ export default {
           horizontalAlign: 'right',
         },
         fill: {
-          colors: [({value}) => {
+          colors: [({ value }) => {
             return this.max_target < value ? '#3fe656' : value >= this.min_target ? '#0071C0' : '#f4cb50';
           }],
         },
@@ -180,105 +181,124 @@ export default {
         name: 'series-1',
         data: [230, 350, 45],
       }],
-    }
+    };
   },
   mounted() {
-    this.getCounters();
-    // this.startTimer()
+    this.getDate();
+    this.startTimer()
   },
   beforeDestroy() {
-    this.stopTimer()
+    this.stopTimer();
   },
   methods: {
     getFormatData() {
-      let time_zone = []
+      let time_zone = [];
 
       for (let i = 0; i <= 23; i++) {
         time_zone[i] = i <= 9 ? `0${i}:00` : `${i}:00`;
       }
-      return time_zone.slice(20, 24).concat(time_zone.slice(0, 8))
+      return time_zone.slice(20, 24)
+          .concat(time_zone.slice(0, 8));
     },
     getCounters() {
       http.get("/refreshDB")
           .then(res => {
             // the resulting array from the database
-            let shifts = []
-            res.data.shift_stat.forEach((item => shifts.push(item.result)))
+            let shifts = [];
+            res.data.shift_stat.forEach((item => shifts.push(item.result)));
             this.series = [{
-              data: shifts.slice(20, 24).concat(shifts.slice(0, 8))
-            }]
+              data: shifts.slice(20, 24)
+                  .concat(shifts.slice(0, 8))
+            }];
 
             // amounts for results
-            let night_s = shifts.slice(20, 24).concat(shifts.slice(0, 8))
-            let com = night_s.reduce((sum, cur) => sum + cur, 0)
+            let night_s = shifts.slice(20, 24)
+                .concat(shifts.slice(0, 8));
+            let com = night_s.reduce((sum, cur) => sum + cur, 0);
 
-            this.max_target = this.total / 12
-            this.min_target = this.max_target - 50
-            this.complete = new Intl.NumberFormat('en-US').format(com)
-            this.progress = Math.floor((com / this.total) * 100) + '%'
+            this.max_target = this.total / 12;
+            this.min_target = this.max_target - 50;
+            this.complete = new Intl.NumberFormat('en-US').format(com);
+            this.progress = Math.floor((com / this.total) * 100) + '%';
 
           })
           .catch((e) => {
-            return e === 'Нет ответа от сервера'
-          })
+            return e === 'Нет ответа от сервера';
+          });
     },
     getDate() {
       http.get("/getPackingShifts", {
         params: {
           period: this.$data.period.slice(0, 10),
         }
-      }).then(res => {
-
-        // the resulting array from the database
-        let shifts = []
-
-        // processing the resulting array and creating object based on  - time, value
-        res.data.forEach(item => {
-          item.forEach(({pack_time, result}) => {
-            if (pack_time <= '20:00:00' && pack_time >= '07:00:00') {
-              let obj = {
-                time: pack_time,
-                result: parseInt(result)
-              }
-              shifts.push(obj)
-            }
-          })
-        })
-
-        //obj sort by timestamp
-        let sorted_shift = shifts.sort(((a, b) => a.time > b.time))
-        let res_shift = [] // отсортированое время
-        sorted_shift.forEach(i => res_shift.push(i.result))
-
-        let null_arr = Array(12).fill(0)
-
-        null_arr.forEach((value, index) => null_arr[index] = res_shift[index] || 0)
-
-        this.series = [{
-          data: null_arr
-        }]
-
-        // amounts for results
-        let com = res_shift.reduce((sum, cur) => sum + cur, 0)
-        this.complete = new Intl.NumberFormat('en-US').format(com)
-        this.progress = Math.floor((com / this.total) * 100) + '%'
-
-      }).catch((e) => {
-        return e === 'Нет ответа от сервера'
       })
+          .then(res => {
+            // the resulting array from the database
+            let shifts = [];
+            for (let i = 0; i < 24; i++) {
+              let obj = {
+                time: i <= 9 ? `0${i}:00:00` : `${i}:00:00`,
+                result: 0
+              };
+              shifts.push(obj);
+            }
+
+            let night_s = [];
+            // processing the resulting array and creating object based on  - time, value
+            res.data.forEach(item => {
+              item.forEach(({
+                pack_time,
+                result
+              }) => {
+                let obj = {
+                  time: pack_time,
+                  result: parseInt(result)
+                };
+
+                night_s.push(obj);
+              });
+            });
+
+            shifts.forEach((value, inx) => shifts[inx] = night_s[inx] || shifts[inx]);
+            console.log(shifts);
+
+            //obj sort by timestamp
+            let sorted_shift = shifts.sort(((a, b) => a.time > b.time));
+            // console.log(sorted_shift);
+            let res_shift = []; // sorted time
+            sorted_shift.slice(20, 24)
+                .concat(shifts.slice(0, 8))
+                .forEach(i => res_shift.push(i.result));
+            console.log(res_shift);
+
+            this.series = [{
+              data: res_shift
+            }];
+
+            // amounts for results
+            this.max_target = this.total / 12;
+            this.min_target = this.max_target - 50;
+            let com = res_shift.reduce((sum, cur) => sum + cur, 0);
+            this.complete = new Intl.NumberFormat('en-US').format(com);
+            this.progress = Math.floor((com / this.total) * 100) + '%';
+
+          })
+          .catch((e) => {
+            return e === 'Нет ответа от сервера';
+          });
     },
     stopTimer() {
       if (this.interval) {
-        window.clearInterval(this.interval)
+        window.clearInterval(this.interval);
       }
     },
     startTimer() {
-      this.stopTimer()
+      this.stopTimer();
       this.interval = window.setInterval(() => {
-        this.getCounters()
-      }, 5000)
+        this.getDate();
+      }, 600000);
     },
   }
-}
+};
 </script>
 
