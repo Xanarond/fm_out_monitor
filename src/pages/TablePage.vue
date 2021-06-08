@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import TableComponent from "@/components/TableComponent";
+import TableComponent from '@/components/TableComponent';
 
 export default {
   name: 'TablePage',
   components: {
     TableComponent,
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

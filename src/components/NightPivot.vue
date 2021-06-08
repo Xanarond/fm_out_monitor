@@ -25,16 +25,15 @@
   </div>
 </template>
 <script>
-import DxPivotGrid, {DxFieldChooser} from 'devextreme-vue/pivot-grid';
+import DxPivotGrid, { DxFieldChooser } from 'devextreme-vue/pivot-grid';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
-import {createStore} from 'devextreme-aspnet-data-nojquery';
-
+import { createStore } from 'devextreme-aspnet-data-nojquery';
 
 export default {
-  name: "DayPivot",
+  name: 'DayPivot',
   components: {
     DxPivotGrid,
-    DxFieldChooser
+    DxFieldChooser,
   },
   created() {
   },
@@ -43,7 +42,7 @@ export default {
       dataSource: new PivotGridDataSource({
         rtlEnabled: true,
         store: createStore({
-          loadUrl: 'http://localhost:8081/api/refreshPivotNight'
+          loadUrl: 'http://localhost:8081/api/refreshPivotNight',
         }),
         fields: [
           {
@@ -53,7 +52,7 @@ export default {
             area: 'row',
             sortBySummaryField: 'person',
             sortOrder: 'desc',
-            width: 300
+            width: 300,
           },
           {
             caption: 'Pick_time',
@@ -68,53 +67,86 @@ export default {
             area: 'data',
           },
         ],
-      })
+      }),
     };
   },
   methods: {
-    onCellPrepared({cell, area, cellElement}) {
+    onCellPrepared({
+      cell,
+      area,
+      cellElement,
+    }) {
       cell.area = area;
       if (this.isDataCell(cell) || this.isTotalCell(cell)) {
         const appearance = this.getConditionalAppearance(cell);
         Object.assign(cellElement.style, this.getCssStyles(appearance));
       }
     },
-    isDataCell: function (cell) {
+    isDataCell(cell) {
       return (cell.area === 'data' && cell.rowType === 'D' && cell.columnType === 'D');
     },
     isTotalCell(cell) {
       return (cell.type === 'T' || cell.type === 'GT' || cell.rowType === 'T' || cell.rowType === 'GT' || cell.columnType === 'T' || cell.columnType === 'GT');
     },
-    getExcelCellFormat({fill, font, bold}) {
+    getExcelCellFormat({
+      fill,
+      font,
+      bold,
+    }) {
       return {
-        fill: {type: 'pattern', pattern: 'solid', fgColor: {argb: fill}},
-        font: {color: {argb: font}, bold}
+        fill: {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: fill },
+        },
+        font: {
+          color: { argb: font },
+          bold,
+        },
       };
     },
-    getCssStyles({font, bold}) {
+    getCssStyles({
+      font,
+      bold,
+    }) {
       return {
         // 'background-color': `#${fill}`,
         color: `${font}`,
         'font-weight': bold ? 'bold' : undefined,
         'text-align': 'center',
-        'font-size': '32px'
+        'font-size': '32px',
       };
     },
     getConditionalAppearance(cell) {
       if (this.isTotalCell(cell)) {
-        return {fill: '#F2F2F2', font: 'ffffff', bold: true};
-      } else {
-        const {value} = cell;
-        if (value < 20) {
-          return {font: '#ffff00', fill: 'FFC7CE', bold: true};
-        }
-        if (value > 25) {
-          return {font: '#03fd50', fill: 'C6EFCE', bold: true};
-        }
-        return {font: '#07edf9', fill: 'FFEB9C', bold: true};
+        return {
+          fill: '#F2F2F2',
+          font: 'ffffff',
+          bold: true,
+        };
       }
-    }
-  }
+      const { value } = cell;
+      if (value < 20) {
+        return {
+          font: '#ffff00',
+          fill: 'FFC7CE',
+          bold: true,
+        };
+      }
+      if (value > 25) {
+        return {
+          font: '#03fd50',
+          fill: 'C6EFCE',
+          bold: true,
+        };
+      }
+      return {
+        font: '#07edf9',
+        fill: 'FFEB9C',
+        bold: true,
+      };
+    },
+  },
 };
 </script>
 <style scoped>

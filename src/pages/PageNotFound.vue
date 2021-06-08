@@ -9,8 +9,8 @@
 
 <script>
 export default {
-  name: "PageNotFound"
-}
+  name: 'PageNotFound',
+};
 </script>
 
 <style scoped>

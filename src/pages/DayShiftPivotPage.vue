@@ -12,12 +12,12 @@
 </template>
 
 <script>
-import DayPivot from "../components/DayPivot";
+import DayPivot from '../components/DayPivot';
 
 export default {
-  name: "DayShiftPivotPage",
-  components: {DayPivot}
-}
+  name: 'DayShiftPivotPage',
+  components: { DayPivot },
+};
 </script>
 
 <style scoped>

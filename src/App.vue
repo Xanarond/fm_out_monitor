@@ -13,12 +13,12 @@
 
 <script>
 
-import Navigation from "../src/components/Navigation";
+import Navigation from '../src/components/Navigation';
 
 export default {
   name: 'App',
-  components: {Navigation},
-}
+  components: { Navigation },
+};
 </script>
 
 <style>

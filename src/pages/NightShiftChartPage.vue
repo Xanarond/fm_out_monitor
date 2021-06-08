@@ -14,13 +14,12 @@
 </template>
 
 <script>
-import NightChartComponent from "@/components/NightChartComponent";
-
+import NightChartComponent from '@/components/NightChartComponent';
 
 export default {
-  name: "NightShiftChartPage",
-  components: {NightChartComponent}
-}
+  name: 'NightShiftChartPage',
+  components: { NightChartComponent },
+};
 </script>
 
 <style scoped>

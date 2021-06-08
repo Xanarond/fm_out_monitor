@@ -41,25 +41,38 @@
     "vue-async-computed": "^3.9.0",
     "vue-template-compiler": "^2.6.11",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-requirejs": "^4.0.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-config-airbnb-base": "^14.2.1",
     "prettier": "^2.3.0"
   },
   "eslintConfig": {
     "root": true,
     "env": {
+      "commonjs": true,
+      "es6": true,
       "node": true
     },
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended",
-      "prettier"
+      "prettier",
+      "airbnb-base"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-console": "off",
+      "camelcase": "off",
+      "no-shadow": "warn",
+      "max-len": "warn",
+      "quotes": "off",
+      "arrow-parens": "off",
+      "no-return-assign": "off",
+      "no-plusplus": "off",
+      "max-depth": "off"
+    }
   },
   "browserslist": [
     "> 1%",

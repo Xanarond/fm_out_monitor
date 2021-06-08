@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import DayChartComponent from "../components/DayChartComponent";
+import DayChartComponent from '../components/DayChartComponent';
 
 export default {
-  name: "ChartPage",
-  components: {DayChartComponent}
-}
+  name: 'ChartPage',
+  components: { DayChartComponent },
+};
 </script>
 
 <style scoped>
