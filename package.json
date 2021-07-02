@@ -27,14 +27,14 @@
     "vue-apexcharts": "^1.6.0",
     "vue-ctk-date-time-picker": "^2.5.0",
     "vue-material": "^1.0.0-beta-15",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "devextreme-aspnet-data-nojquery": "^2.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
-    "devextreme-aspnet-data-nojquery": "^2.5.1",
     "devextreme-cldr-data": "^1.0.3",
     "eslint": "^7.27.0",
     "eslint-plugin-vue": "^6.2.2",
@@ -44,6 +44,7 @@
     "eslint-plugin-requirejs": "^4.0.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
     "prettier": "^2.3.0"
   },
   "eslintConfig": {
@@ -66,12 +67,13 @@
       "no-console": "off",
       "camelcase": "off",
       "no-shadow": "warn",
-      "max-len": "warn",
+      "max-len": "off",
       "quotes": "off",
       "arrow-parens": "off",
       "no-return-assign": "off",
       "no-plusplus": "off",
-      "max-depth": "off"
+      "max-depth": "off",
+      "import/no-unresolved": "off"
     }
   },
   "browserslist": [

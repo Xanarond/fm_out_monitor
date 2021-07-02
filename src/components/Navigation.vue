@@ -30,9 +30,9 @@
           <md-menu-item href="/monitor">
             Monitoring
           </md-menu-item>
-          <md-menu-item to="/status">
+<!--          <md-menu-item to="/status">
             Status
-          </md-menu-item>
+          </md-menu-item>-->
         </md-menu-content>
       </md-menu>
     </md-toolbar>
