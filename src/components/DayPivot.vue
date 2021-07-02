@@ -2,12 +2,13 @@
   <div class="pb-2">
     <b-row class="justify-content-center pb-3">
       <div class="d-inline-block  mt-auto mb-auto" style="color: #fff">Period:</div>
-      <VueCtkDateTimePicker :dark=true :label="'Select Date'" :noButton=true :noHeader=true
-                            :noValueToCustomElem=true :range=true
-                            class="justify-content-start d-inline-block mt-auto mb-auto"
+      <VueCtkDateTimePicker v-model="period.cur_date" :dark=true :label="'Select Date'" :noButton=true
+                            :noHeader=true :noValueToCustomElem=true
+                            :onlyDate=true class="justify-content-start d-inline-block mt-auto mb-auto"
+                            formatted="L"
                             style="width: 380px;margin:0 5px 5px;"/>
       <button class="d-inline-block ml-1 mt-auto mb-auto btn btn-secondary text-white mr-2" type="button"
-              v-on:click="getDate()">Refresh
+              v-on:click="updateStore()">Refresh
       </button>
     </b-row>
     <DxPivotGrid
@@ -16,7 +17,7 @@
         :allow-filtering="true"
         :allow-sorting="true"
         :allow-sorting-by-summary="true"
-        :data-source="dataSource"
+        :data-source="DayPivot"
         :show-borders="true"
         @cell-prepared="onCellPrepared"
     >
@@ -25,9 +26,61 @@
   </div>
 </template>
 <script>
+
 import DxPivotGrid, { DxFieldChooser } from 'devextreme-vue/pivot-grid';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
-import { createStore } from 'devextreme-aspnet-data-nojquery';
+import moment from "moment";
+import { createStore } from "devextreme-aspnet-data-nojquery";
+
+/**
+ * @type {PivotGridDataSource}
+ */
+const DayPivot = new PivotGridDataSource({
+  rtlEnabled: true,
+  store: createStore({
+    loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshDayShift',
+    loadParams: {
+      cur_date: moment()
+        .format('YYYY-MM-DD')
+        .slice(0, 10),
+      past_date: moment()
+        .subtract(1, 'day')
+        .format('YYYY-MM-DD')
+        .slice(0, 10),
+    },
+    onUpdating() {
+      this.loadParams = {
+        cur_date: this.cur_date,
+        past_date: this.past_date,
+      };
+    },
+  }),
+  fields: [
+    {
+      caption: 'Worker',
+      dataField: 'worker',
+      dataType: 'text',
+      area: 'row',
+      sortBySummaryField: 'worker',
+      sortOrder: 'desc',
+      width: 300,
+    },
+    {
+      caption: 'Pick_time',
+      dataField: 'pick_time',
+      dataType: 'datetime',
+      area: 'column',
+      sortBySummaryField: 'pick_time',
+      sortOrder: 'asc',
+    },
+    {
+      caption: 'Value_Worker',
+      dataField: 'worker',
+      dataType: 'text',
+      area: 'data',
+    },
+  ],
+});
 
 export default {
   name: 'DayPivot',
@@ -35,21 +88,44 @@ export default {
     DxPivotGrid,
     DxFieldChooser,
   },
-  created() {
-  },
   data() {
     return {
-      dataSource: new PivotGridDataSource({
+      DayPivot,
+      period: {
+        cur_date: moment()
+          .format('YYYY-MM-DD'),
+        past_date: moment(this.cur_date)
+          .subtract(1, 'day')
+          .format('YYYY-MM-DD'),
+      },
+    };
+  },
+  methods: {
+    updateStore() {
+      this.DayPivot = new PivotGridDataSource({
+        rtlEnabled: true,
         store: createStore({
-          loadUrl: 'http://localhost:8081/api/refreshPivotDay',
+          loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshDayShift',
+          loadParams: {
+            cur_date: this.$data.period.cur_date.slice(0, 10),
+            past_date: moment(this.$data.period.cur_date.slice(0, 10))
+              .subtract(1, 'day')
+              .format('YYYY-MM-DD'),
+          },
+          onUpdating() {
+            this.loadParams = {
+              cur_date: this.cur_date,
+              past_date: this.past_date,
+            };
+          },
         }),
         fields: [
           {
-            caption: 'Person',
-            dataField: 'person',
+            caption: 'Worker',
+            dataField: 'worker',
             dataType: 'text',
             area: 'row',
-            sortBySummaryField: 'person',
+            sortBySummaryField: 'worker',
             sortOrder: 'desc',
             width: 300,
           },
@@ -58,23 +134,23 @@ export default {
             dataField: 'pick_time',
             dataType: 'datetime',
             area: 'column',
+            sortOrder: 'asc',
           },
           {
-            caption: 'Value_Person',
-            dataField: 'person',
+            caption: 'Value_Worker',
+            dataField: 'worker',
             dataType: 'text',
             area: 'data',
           },
         ],
-      }),
-    };
-  },
-  methods: {
+      });
+    },
     onCellPrepared({
       cell,
       area,
       cellElement,
     }) {
+      // eslint-disable-next-line no-param-reassign
       cell.area = area;
       if (this.isDataCell(cell) || this.isTotalCell(cell)) {
         const appearance = this.getConditionalAppearance(cell);
@@ -142,6 +218,20 @@ export default {
         bold: true,
       };
     },
+    stopTimer() {
+      if (this.interval) {
+        window.clearInterval(this.interval);
+      }
+    },
+    startTimer() {
+      this.stopTimer();
+      this.interval = window.setInterval(() => {
+        this.updateStore();
+      }, 600000);
+    },
+  },
+  mounted() {
+    this.startTimer();
   },
 };
 </script>

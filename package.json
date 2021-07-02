@@ -17,6 +17,7 @@
     "devexpress-diagram": "2.0.18",
     "devexpress-gantt": "2.0.24",
     "devextreme": "20.2.6",
+    "devextreme-aspnet-data-nojquery": "^2.5.1",
     "devextreme-quill": "0.10.3",
     "devextreme-vue": "20.2.6",
     "jquery": "^3.6.0",
@@ -34,17 +35,17 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
-    "devextreme-aspnet-data-nojquery": "^2.5.1",
     "devextreme-cldr-data": "^1.0.3",
-    "eslint": "^7.27.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-async-computed": "^3.9.0",
-    "vue-template-compiler": "^2.6.11",
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-requirejs": "^4.0.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "prettier": "^2.3.0"
+    "eslint-plugin-vue": "^6.2.2",
+    "prettier": "^2.3.0",
+    "vue-async-computed": "^3.9.0",
+    "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
     "root": true,
@@ -66,12 +67,13 @@
       "no-console": "off",
       "camelcase": "off",
       "no-shadow": "warn",
-      "max-len": "warn",
+      "max-len": "off",
       "quotes": "off",
       "arrow-parens": "off",
       "no-return-assign": "off",
       "no-plusplus": "off",
-      "max-depth": "off"
+      "max-depth": "off",
+      "import/no-unresolved": "off"
     }
   },
   "browserslist": [
