@@ -54,6 +54,7 @@
 <script>
 
 import $ from 'jquery';
+import moment from "moment";
 import http from '../http-common';
 
 export default {
@@ -306,6 +307,79 @@ export default {
         })
         .catch((e) => e === 'Нет ответа от сервера');
     },
+    getDate() {
+      http.get('/getPackingShifts', {
+        params: {
+          cur_date: moment().subtract(20, 'day').format('YYYY-MM-DD').slice(0, 10),
+          past_date: moment()
+            .subtract(21, 'day')
+            .format('YYYY-MM-DD').slice(0, 10),
+        },
+      })
+        .then((res) => {
+          console.log(res.data);
+          // массив целевых значений
+
+          // результирующий массив из БД
+          const shifts = [];
+          for (let i = 0; i < 24; i++) {
+            const obj = {
+              time: i <= 9 ? `0${i}:00:00` : `${i}:00:00`,
+              result: 0,
+              target: this.total / 12,
+            };
+            shifts.push(obj);
+          }
+
+          const day_s = [];
+          // processing the resulting array and creating object based on  - time, value
+          res.data.cur_date.forEach((item) => {
+            item.forEach(({
+              pack_time,
+              result,
+            }) => {
+              const obj = {
+                time: pack_time,
+                result: parseInt(result, 10),
+                target: this.total / 12,
+              };
+              day_s.push(obj);
+            });
+          });
+
+          const par_s = [];
+          res.data.past_date.forEach((item) => {
+            item.forEach(({
+              pack_time,
+              result,
+            }) => {
+              const obj = {
+                time: pack_time,
+                result: parseInt(result, 10),
+                target: this.total / 12,
+              };
+              par_s.push(obj);
+            });
+          });
+
+          const compare = [...shifts, ...day_s, ...par_s];
+
+          const key = 'time';
+          // sorting array by unique time
+          const arrayUniqueByKey = [...new Map(compare.map(item => [item[key], item])).values()];
+
+          console.log(arrayUniqueByKey);
+
+          // задаем массивы для временных промежутков
+          // const time_zone = [];
+
+          /* res.data.past_date.forEach((item) => {
+            shifts.push(item.result);
+            time_zone.push(item.pack_time);
+          }); */
+        })
+        .catch((e) => e === 'Нет ответа от сервера');
+    },
     stopTimer() {
       if (this.interval) {
         window.clearInterval(this.interval);
@@ -314,15 +388,17 @@ export default {
     startTimer() {
       this.stopTimer();
       this.interval = window.setInterval(() => {
-        this.getCounters();
+        this.getDate();
+        // this.getCounters();
       }, 5000);
     },
   },
   mounted() {
-    this.getCounters();
+    // this.getCounters();
+    this.getDate();
     this.startTimer();
   },
-  beforeDestroy() {
+  destroyed() {
     this.stopTimer();
   },
 };

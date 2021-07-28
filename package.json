@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "devexpress-diagram": "2.0.18",
     "devexpress-gantt": "2.0.24",
@@ -26,6 +27,7 @@
     "sass-loader": "^11.0.1",
     "vue": "^2.6.12",
     "vue-apexcharts": "^1.6.0",
+    "vue-chartjs": "^3.5.1",
     "vue-ctk-date-time-picker": "^2.5.0",
     "vue-material": "^1.0.0-beta-15",
     "vue-router": "^3.5.1"
@@ -73,7 +75,8 @@
       "no-return-assign": "off",
       "no-plusplus": "off",
       "max-depth": "off",
-      "import/no-unresolved": "off"
+      "import/no-unresolved": "off",
+      "import/extensions": "off"
     }
   },
   "browserslist": [

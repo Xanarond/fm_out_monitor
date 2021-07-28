@@ -233,6 +233,9 @@ export default {
   mounted() {
     this.startTimer();
   },
+  beforeDestroy() {
+    this.stopTimer();
+  },
 };
 </script>
 <style scoped>

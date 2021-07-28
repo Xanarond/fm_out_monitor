@@ -285,7 +285,7 @@ export default {
           console.log(arrayUniqueByKey);
 
           // obj sort by timestamp
-          const sorted_shift = arrayUniqueByKey.sort(((a, b) => a.time > b.time));
+          const sorted_shift = arrayUniqueByKey.sort((a, b) => a.time > b.time);
           // console.log(sorted_shift);
           const res_shift = []; // sorted time
           sorted_shift.slice(20, 24)

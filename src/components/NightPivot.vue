@@ -234,10 +234,13 @@ export default {
   mounted() {
     this.startTimer();
   },
+  beforeDestroy() {
+    this.stopTimer();
+  },
 };
 </script>
 <style scoped>
-#pivot {
+#pivot div{
   text-align: center !important;
   font-size: 32px;
   font-weight: bold;

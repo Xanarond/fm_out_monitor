@@ -1,14 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import TablePage from '../src/pages/TablePage';
-import PageNotFound from '../src/pages/PageNotFound';
-import DayShiftChartPage from '../src/pages/DayShiftChartPage';
-import NightShiftChartPage from '../src/pages/NightShiftChartPage';
-import DayShiftPivotPage from './pages/DayShiftPivotPage';
-import NightShiftPivotPage from './pages/NightShiftPivotPage';
-import PickingPage from '../src/pages/PickingPage';
+import PageNotFound from '@/pages/PageNotFound';
 
 Vue.use(Router);
+const TablePage = () => import('@/pages/TablePage');
+const DayShiftChartPage = () => import('@/pages/DayShiftChartPage');
+const NightShiftChartPage = () => import('@/pages/NightShiftChartPage');
+const DayShiftPivotPage = () => import('@/pages/DayShiftPivotPage');
+const NightShiftPivotPage = () => import('@/pages/NightShiftPivotPage');
+const PickingPage = () => import('@/pages/PickingPage');
+const MLPage = () => import('@/pages/MLPage');
 
 export default new Router({
   mode: 'history',
@@ -36,6 +37,11 @@ export default new Router({
     {
       path: '/monitor',
       component: PickingPage,
+    },
+    {
+      path: '/ml_status',
+      component: MLPage,
+      props: true,
     },
     {
       path: '*',
