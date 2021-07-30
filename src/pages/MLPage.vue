@@ -44,11 +44,71 @@
 <script>
 
 import DonutChart from "@/components/DonutChart";
+import moment from "moment";
+import http from "@/http-common";
 
 export default {
   name: "MLPage",
   components: {
     DonutChart,
+  },
+  data() {
+    return {
+      period: {
+        cur_date: moment()
+          .format('YYYY-MM-DD'),
+        past_date: moment(this.cur_date)
+          .subtract(1, 'day')
+          .format('YYYY-MM-DD'),
+      },
+    };
+  },
+  methods: {
+    getCountData() {
+      http.get('/getMLNormal', {
+        /* params: {
+          cur_date: this.$data.period.cur_date.slice(0, 10),
+          past_date: moment(this.$data.period.cur_date.slice(0, 10))
+            .subtract(1, 'day')
+            .format('YYYY-MM-DD'),
+        }, */
+      })
+        .then((res) => {
+          // результирующий массив из БД
+          // const counts = [];
+
+          console.log(res.data);
+
+          /* res.data.shift_stat.forEach(((item) => {
+            shifts.push(item.result);
+          }));
+
+          this.series = [{
+            data: shifts.slice(8, 20),
+          }];
+
+          // суммы для результатов
+          const com = shifts.slice(8, 20)
+            .reduce((sum, cur) => sum + cur, 0);
+          this.complete = new Intl.NumberFormat('en-US').format(com);
+          this.progress = `${Math.floor((com / this.total) * 100)}%`; */
+        })
+        .catch((e) => e === 'Нет ответа от сервера');
+    },
+    stopTimer() {
+      if (this.interval) {
+        window.clearInterval(this.interval);
+      }
+    },
+    startTimer() {
+      this.stopTimer();
+      this.interval = window.setInterval(() => {
+        this.getCountData();
+      }, 600000);
+    },
+  },
+  mounted() {
+    this.getCountData();
   },
 };
 </script>

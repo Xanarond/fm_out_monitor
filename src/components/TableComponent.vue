@@ -60,6 +60,26 @@ import http from '../http-common';
 export default {
 
   name: 'TableComponent',
+  data() {
+    return {
+      fields: ['time', 'target', 'result', 'status'],
+      total_fields: ['target', 'total'],
+      tableVariant: 'dark',
+      day_shift: [],
+      night_shift: [],
+      col: 'dark',
+      total_d: [],
+      total_n: [],
+      total: 6000,
+      period: {
+        cur_date: moment()
+          .format('YYYY-MM-DD'),
+        past_date: moment(this.cur_date)
+          .subtract(1, 'day')
+          .format('YYYY-MM-DD'),
+      },
+    };
+  },
   created() {
     // массив целевых значений
     const target = Array(12)
@@ -176,56 +196,109 @@ export default {
     this.total_d = sum_day;
     this.total_n = sum_night;
   },
-  data() {
-    return {
-      fields: ['time', 'target', 'result', 'status'],
-      total_fields: ['target', 'total'],
-      tableVariant: 'dark',
-      day_shift: [],
-      night_shift: [],
-      col: 'dark',
-      total_d: [],
-      total_n: [],
-      total: 6000,
-    };
-  },
   methods: {
-    getCounters() {
-      http.get('/refreshDB', {})
+    getDate() {
+      http.get('/getPackingShifts', {
+        params: {
+          cur_date: this.$data.period.cur_date.slice(0, 10),
+          past_date: moment(this.$data.period.cur_date.slice(0, 10))
+            .subtract(1, 'day')
+            .format('YYYY-MM-DD'),
+        },
+      })
         .then((res) => {
           // массив целевых значений
-          const target = Array(12)
+          const target = Array(24)
             .fill(this.total / 12);
 
-          // результирующий массив из БД
+          // the resulting array from the database
           const shifts = [];
+          for (let i = 0; i < 24; i++) {
+            const obj = {
+              time: i <= 9 ? `0${i}:00:00` : `${i}:00:00`,
+              result: 0,
+            };
+            shifts.push(obj);
+          }
 
-          // задаем массивы для временных промежутков
-          const time_zone = [];
-
-          res.data.shift_stat.forEach((item) => {
-            shifts.push(item.result);
-            time_zone.push(item.time);
+          const day_s = [];
+          // processing the resulting array and creating object based on  - time, value
+          res.data.cur_date.forEach((item) => {
+            item.forEach(({
+              pack_time,
+              result,
+            }) => {
+              const obj = {
+                time: pack_time,
+                result: parseInt(result, 10),
+              };
+              day_s.push(obj);
+            });
           });
 
-          const day_shift = time_zone.slice(8, 20);
-          const night_shift = time_zone.slice(20, 24)
-            .concat(time_zone.slice(0, 8));
-            // console.log(day_shift, night_shift)
+          const par_s = [];
+          res.data.past_date.forEach((item) => {
+            item.forEach(({
+              pack_time,
+              result,
+            }) => {
+              const obj = {
+                time: pack_time,
+                result: parseInt(result, 10),
+              };
+              par_s.push(obj);
+            });
+          });
 
-          const day_res = shifts.slice(8, 20);
-          const night_res = shifts.slice(20, 24)
-            .concat(shifts.slice(0, 8));
-            // console.log(day_res, night_res)
+          // add union array for comparing times & result
+          const compare = [...shifts, ...day_s, ...par_s];
+
+          // sorting array by unique time
+          const arrayUniqueByKey = [...new Map(compare.map(item => [item.time, item])).values()];
+
+          const t_res = [];
+          const time = [];
+
+          arrayUniqueByKey.forEach((item) => {
+            t_res.push(item.result);
+            time.push(item.time);
+          });
+
+          // рассчет статусов
+          const status = [];
+
+          for (let i = 0; i <= 23; i++) {
+            status[i] = target[i] < t_res[i]
+              ? 'Отлично' : status[i] = t_res[i] >= 300
+                ? 'Норма' : status[i] = t_res[i] === 0 || t_res[i] === ''
+                  ? '-' : 'Плохо';
+          }
+
+          const total_arr = [];
+
+          for (let i = 0; i <= 23; i++) {
+            const obj = {
+              time: time[i],
+              result: t_res[i],
+              target: target[i],
+              status: status[i],
+            };
+            total_arr.push(obj);
+          }
+
+          const day_arr = total_arr.slice(8, 20);
+          const night_arr = total_arr.slice(20, 24)
+            .concat(total_arr.slice(0, 8));
+
+          // **************************************************************************
+
+          const day_res = t_res.slice(8, 20);
+          const night_res = t_res.slice(20, 24)
+            .concat(t_res.slice(0, 8));
 
           // суммы для результатов
           const total_day = day_res.reduce((sum, cur) => sum + cur, 0);
-
           const total_night = night_res.reduce((sum, cur) => sum + cur, 0);
-
-          // let target_sum = target.reduce((sum, cur) => {
-          // return sum + cur
-          // }, 0);
 
           const sum_day = [];
           const sum_night = [];
@@ -241,49 +314,6 @@ export default {
             total: total_night,
           };
           sum_night.push(night_t);
-
-          // рассчет статусов
-          const status1 = [];
-
-          for (let i = 0; i <= 11; i++) {
-            status1[i] = target[i] < day_res[i]
-              ? 'Отлично' : status1[i] = day_res[i] >= 300
-                ? 'Норма' : status1[i] = day_res[i] === 0 || day_res[i] === ''
-                  ? '-' : 'Плохо';
-          }
-
-          const status2 = [];
-          for (let i = 0; i <= 11; i++) {
-            status2[i] = target[i] < night_res[i]
-              ? 'Отлично' : status2[i] = night_res[i] >= 300
-                ? 'Норма' : status2[i] = night_res[i] === 0 || night_res[i] === ''
-                  ? '-' : 'Плохо';
-          }
-
-          // упаковка обьектов статусов в массив
-          const day_arr = [];
-
-          for (let i = 0; i <= 11; i++) {
-            const obj = {
-              time: day_shift[i],
-              result: day_res[i],
-              target: target[i],
-              status: status1[i],
-            };
-            day_arr.push(obj);
-          }
-
-          const night_arr = [];
-
-          for (let i = 0; i <= 11; i++) {
-            const obj = {
-              time: night_shift[i],
-              result: night_res[i],
-              target: target[i],
-              status: status2[i],
-            };
-            night_arr.push(obj);
-          }
 
           $(() => {
             $('td:contains("Плохо")')
@@ -305,80 +335,7 @@ export default {
           this.total_d = sum_day;
           this.total_n = sum_night;
         })
-        .catch((e) => e === 'Нет ответа от сервера');
-    },
-    getDate() {
-      http.get('/getPackingShifts', {
-        params: {
-          cur_date: moment().subtract(20, 'day').format('YYYY-MM-DD').slice(0, 10),
-          past_date: moment()
-            .subtract(21, 'day')
-            .format('YYYY-MM-DD').slice(0, 10),
-        },
-      })
-        .then((res) => {
-          console.log(res.data);
-          // массив целевых значений
-
-          // результирующий массив из БД
-          const shifts = [];
-          for (let i = 0; i < 24; i++) {
-            const obj = {
-              time: i <= 9 ? `0${i}:00:00` : `${i}:00:00`,
-              result: 0,
-              target: this.total / 12,
-            };
-            shifts.push(obj);
-          }
-
-          const day_s = [];
-          // processing the resulting array and creating object based on  - time, value
-          res.data.cur_date.forEach((item) => {
-            item.forEach(({
-              pack_time,
-              result,
-            }) => {
-              const obj = {
-                time: pack_time,
-                result: parseInt(result, 10),
-                target: this.total / 12,
-              };
-              day_s.push(obj);
-            });
-          });
-
-          const par_s = [];
-          res.data.past_date.forEach((item) => {
-            item.forEach(({
-              pack_time,
-              result,
-            }) => {
-              const obj = {
-                time: pack_time,
-                result: parseInt(result, 10),
-                target: this.total / 12,
-              };
-              par_s.push(obj);
-            });
-          });
-
-          const compare = [...shifts, ...day_s, ...par_s];
-
-          const key = 'time';
-          // sorting array by unique time
-          const arrayUniqueByKey = [...new Map(compare.map(item => [item[key], item])).values()];
-
-          console.log(arrayUniqueByKey);
-
-          // задаем массивы для временных промежутков
-          // const time_zone = [];
-
-          /* res.data.past_date.forEach((item) => {
-            shifts.push(item.result);
-            time_zone.push(item.pack_time);
-          }); */
-        })
-        .catch((e) => e === 'Нет ответа от сервера');
+        .catch((e) => console.log(e, 'Нет ответа от сервера'));
     },
     stopTimer() {
       if (this.interval) {
@@ -394,11 +351,10 @@ export default {
     },
   },
   mounted() {
-    // this.getCounters();
     this.getDate();
     this.startTimer();
   },
-  destroyed() {
+  onDestroyed() {
     this.stopTimer();
   },
 };
