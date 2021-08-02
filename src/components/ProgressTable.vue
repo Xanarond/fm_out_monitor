@@ -128,7 +128,9 @@ export default {
 
           this.timestamp = day_ts;
           this.items = res.data;
+          // eslint-disable-next-line prefer-destructuring
           this.hour = hours.slice(-1)[0];
+          // eslint-disable-next-line prefer-destructuring
           this.date = dates.slice(-1)[0];
 
           $(() => {
