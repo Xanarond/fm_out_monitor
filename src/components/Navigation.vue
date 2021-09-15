@@ -35,6 +35,17 @@
           </md-menu-item>
         </md-menu-content>
       </md-menu>
+      <md-menu class="pr-1" md-align-trigger md-size="auto">
+        <md-button md-menu-trigger>PGI</md-button>
+        <md-menu-content>
+          <md-menu-item to="/pick_task">
+            Pick Task
+          </md-menu-item>
+          <md-menu-item to="/pgi_np">
+            PGI Not Picked
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </md-toolbar>
     <!--    <div class="align-content-end">
           <md-button class="align-content-end">Show</md-button>

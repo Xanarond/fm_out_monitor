@@ -278,11 +278,11 @@ export default {
           // sorting array by unique time
           const arrayUniqueByKey = [...new Map(compare.map(item => [item[key], item])).values()];
 
-          console.log(arrayUniqueByKey);
+          // console.log(arrayUniqueByKey);
 
           // obj sort by timestamp
           const sorted_shift = arrayUniqueByKey.sort(((a, b) => a.time > b.time));
-          console.log(sorted_shift);
+          // console.log(sorted_shift);
           const res_shift = []; // sorted time
           sorted_shift.slice(8, 20)
             .forEach((i) => res_shift.push(i.result));

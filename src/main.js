@@ -12,9 +12,12 @@ import "devextreme/dist/css/dx.common.css";
 import "devextreme/dist/css/dx.dark.css";
 import "./dx.generic.custom-scheme.css";
 import AsyncComputed from "vue-async-computed";
+// import dotenv from "dotenv";
 import router from "./router";
 import App from "./App.vue";
 
+Vue.config.productionTip = true;
+Vue.config.silent = true;
 Vue.component("VueCtkDateTimePicker", VueCtkDateTimePicker);
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);

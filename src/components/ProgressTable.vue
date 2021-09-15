@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import http from '@/http-common';
 import $ from 'jquery';
+import http from '@/http-common';
 
 export default {
   name: 'ProgressTable',
@@ -73,7 +73,7 @@ export default {
         },
         {
           text: 'Moscow',
-          value: 'MCK',
+          value: 'MSC',
         },
         {
           text: 'Region',
@@ -97,15 +97,15 @@ export default {
     };
   },
   methods: {
-    getCounters() {
-      http.get('/refreshProgress', {})
+    getData() {
+      http.get('/getProgressMonitor', {})
         .then((res) => {
+          console.log(res.data.flat());
           const dates = [];
           const hours = [];
-
           const timestamp = new Set();
 
-          res.data.forEach(((item) => {
+          res.data.flat().forEach(((item) => {
             dates.push(item['PGI Datetime'].slice(0, 10));
             hours.push(item['PGI Datetime'].slice(11, 16));
             timestamp.add(item['PGI Datetime']);
@@ -127,7 +127,7 @@ export default {
           }
 
           this.timestamp = day_ts;
-          this.items = res.data;
+          this.items = res.data.flat();
           // eslint-disable-next-line prefer-destructuring
           this.hour = hours.slice(-1)[0];
           // eslint-disable-next-line prefer-destructuring
@@ -148,8 +148,7 @@ export default {
               .css('color', '#fff');
           });
         })
-
-        .catch((e) => e === 'Нет ответа от сервера');
+        .catch((e) => console.log(e, 'Нет ответа от сервера'));
     },
     /**
      *
@@ -175,12 +174,12 @@ export default {
     startTimer() {
       this.stopTimer();
       this.interval = window.setInterval(() => {
-        this.getCounters();
+        this.getData();
       }, 5000);
     },
   },
   mounted() {
-    this.getCounters();
+    this.getData();
     this.startTimer();
   },
   beforeDestroy() {

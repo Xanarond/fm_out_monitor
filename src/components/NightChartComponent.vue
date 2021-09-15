@@ -236,7 +236,7 @@ export default {
         },
       })
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           // the resulting array from the database
           const shifts = [];
           for (let i = 0; i < 24; i++) {
@@ -282,7 +282,7 @@ export default {
           // sorting array by unique time
           const arrayUniqueByKey = [...new Map(compare.map(item => [item[key], item])).values()];
 
-          console.log(arrayUniqueByKey);
+          // console.log(arrayUniqueByKey);
 
           // obj sort by timestamp
           const sorted_shift = arrayUniqueByKey.sort((a, b) => a.time > b.time);
