@@ -19,6 +19,22 @@
         :table-variant="tableVariant"
         class="out_table mt-1"
     ></b-table>
+    <b-row class="justify-content-center">
+      <b-col cols="9">
+        <b-table v-if="url === '/getPivotPickTask'"
+                 :head-variant="dark"
+                 :bordered="true"
+                 :fields="total_fields"
+                 :items="totals"
+                 :table-variant="tableVariant"
+                 class="out_table"
+        >
+          <template>
+            <b-th></b-th>
+          </template>
+        </b-table>
+      </b-col>
+    </b-row>
   </div>
 </template>
 <script>
@@ -34,14 +50,14 @@ import http from "@/http-common";
 export default {
   props: ['url', 'field'],
   name: 'PGITable',
-  components: {
-  },
+  components: {},
   data() {
     return {
       fields: this.$props.field,
-      total_fields: ['target', 'total'],
+      total_fields: ['Pick task Total', 'Not Picked Total', 'Pick Consolidated Total', 'Progress Total'],
       tableVariant: 'dark',
       not_picked: [],
+      totals: [],
       col: 'light',
       total_d: [],
       total: 6000,
@@ -64,6 +80,35 @@ export default {
         .then((res) => {
           // массив целевых значений
           console.log(res.data);
+          const main_obj = res.data;
+          console.log(main_obj);
+          const reducer = (accumulator, currentValue) => accumulator + currentValue;
+          const num_pick = [];
+          const not_pick = [];
+          const pick_consol = [];
+          main_obj.forEach(
+            (el) => {
+              num_pick.push(Number(el["Number of Pick Task"]));
+              not_pick.push(Number(el["Not Picked"]));
+              pick_consol.push(Number(el["Pick Consolidated"]));
+            },
+          );
+          const total_arr = [];
+          const num_pick_sum = num_pick.reduce(reducer);
+          const not_pick_sum = not_pick.reduce(reducer);
+          const pick_consol_sum = pick_consol.reduce(reducer);
+          // eslint-disable-next-line no-mixed-operators
+          const progress_total = 100 * (not_pick_sum + pick_consol_sum) / num_pick_sum;
+
+          const total_obj = {
+            'Pick task Total': num_pick_sum,
+            'Not Picked Total': not_pick_sum,
+            'Pick Consolidated Total': pick_consol_sum,
+            'Progress Total': `${Math.round(progress_total)}%`,
+          };
+          total_arr.push(total_obj);
+          console.log(total_arr);
+          this.totals = total_arr;
           this.not_picked = res.data;
         })
         .catch((e) => console.log(e, 'Нет ответа от сервера'));
@@ -98,7 +143,12 @@ export default {
   font-weight: bold;
   font-family: "Expo M", serif;
 }
-.out_table{
+
+.out_table {
   font-size: 30px;
+}
+
+.hidden_header {
+  display: none;
 }
 </style>

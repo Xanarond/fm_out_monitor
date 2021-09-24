@@ -72,12 +72,12 @@
 <script>
 import moment from "moment";
 import http from "@/http-common";
-// import DonutApex from "../components/DonutApex";
+import DonutApex from "../components/DonutApex";
 
 export default {
   name: "MLPage",
   components: {
-    // DonutApex,
+    DonutApex,
   },
   data() {
     return {
