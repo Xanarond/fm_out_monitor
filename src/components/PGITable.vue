@@ -19,22 +19,6 @@
         :table-variant="tableVariant"
         class="out_table mt-1"
     ></b-table>
-    <b-row class="justify-content-center">
-      <b-col cols="9">
-        <b-table v-if="url === '/getPivotPickTask'"
-                 :head-variant="dark"
-                 :bordered="true"
-                 :fields="total_fields"
-                 :items="totals"
-                 :table-variant="tableVariant"
-                 class="out_table"
-        >
-          <template>
-            <b-th></b-th>
-          </template>
-        </b-table>
-      </b-col>
-    </b-row>
   </div>
 </template>
 <script>
@@ -54,7 +38,6 @@ export default {
   data() {
     return {
       fields: this.$props.field,
-      total_fields: ['Pick task Total', 'Not Picked Total', 'Pick Consolidated Total', 'Progress Total'],
       tableVariant: 'dark',
       not_picked: [],
       totals: [],

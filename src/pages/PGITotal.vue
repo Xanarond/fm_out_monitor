@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       link: '/getPivotPickTask',
-      columns: ["Operation Area Code", "Number of Pick Task", "Not Picked", "Pick Consolidated", "Progress"],
+      columns: ["Operation Area Code", "Number of Pick Task", "Not Picked", "Not Pick Consolidated", "Pick Consolidated", "Progress"],
     };
   },
 };
