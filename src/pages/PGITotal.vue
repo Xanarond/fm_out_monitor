@@ -22,12 +22,39 @@ export default {
   data() {
     return {
       link: '/getPivotPickTask',
-      columns: ["Operation Area Code", "Number of Pick Task", "Not Picked", "Not Pick Consolidated", "Pick Consolidated", "Progress"],
+      columns: ["Operation Area Code",
+        "Number of Pick Task",
+        {
+          key: "Not Picked",
+          tdClass: 'text-red',
+        }, {
+          key: "Not Pick Consolidated",
+          tdClass: 'text-red',
+        }, {
+          key: "Pick Consolidated",
+          tdClass: 'text-blue',
+        }, {
+          key: "Progress",
+          tdClass: 'text-orange',
+        }],
     };
   },
 };
 </script>
 
-<style scoped>
+<style>
+.text-red {
+  color: red;
+  font-weight: bold;
+}
 
+.text-blue {
+  color: #009fff;
+  font-weight: bold;
+}
+
+.text-orange {
+  color: #ff6e00;
+  font-weight: bold;
+}
 </style>
