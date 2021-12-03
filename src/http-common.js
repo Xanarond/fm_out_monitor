@@ -10,7 +10,7 @@ import axios from 'axios';
 }); */
 export default axios.create({
   // url: 'https://localhost:8443/api',
-  baseURL: 'http://192.168.120.99:8081/api',
+  baseURL: 'http://106.109.40.63:8081/api',
   // httpsAgent: agent,
   headers: {
     'Content-type': 'application/json',

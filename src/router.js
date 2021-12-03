@@ -3,57 +3,30 @@ import Router from 'vue-router';
 import PageNotFound from '@/pages/PageNotFound';
 
 Vue.use(Router);
-const TablePage = () => import('@/pages/TablePage');
-const DayShiftChartPage = () => import('@/pages/DayShiftChartPage');
-const NightShiftChartPage = () => import('@/pages/NightShiftChartPage');
+// const TablePage = () => import('@/pages/TablePage');
+// const DayShiftChartPage = () => import('@/pages/DayShiftChartPage');
+// const NightShiftChartPage = () => import('@/pages/NightShiftChartPage');
 const DayShiftPivotPage = () => import('@/pages/DayShiftPivotPage');
 const NightShiftPivotPage = () => import('@/pages/NightShiftPivotPage');
-const PickingPage = () => import('@/pages/PickingPage');
-const MLPage = () => import('@/pages/MLPage');
-const PGITotal = () => import('@/pages/PGITotal');
-const PGIHourly = () => import('@/pages/PGIHourly');
+// const PickingPage = () => import('@/pages/PickingPage');
+// const MLPage = () => import('@/pages/MLPage');
+// const PGITotal = () => import('@/pages/PGITotal');
+// const PGIHourly = () => import('@/pages/PGIHourly');
 
 export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/',
-      component: TablePage,
-    },
-    {
-      path: '/day',
-      component: DayShiftChartPage,
-    },
-    {
-      path: '/night',
-      component: NightShiftChartPage,
-    },
-    {
-      path: '/dayp',
+      path: '',
       component: DayShiftPivotPage,
     },
     {
-      path: '/nightp',
+      path: '/day',
+      component: DayShiftPivotPage,
+    },
+    {
+      path: '/night',
       component: NightShiftPivotPage,
-    },
-    {
-      path: '/monitor',
-      component: PickingPage,
-    },
-    {
-      path: '/ml_status',
-      component: MLPage,
-      props: true,
-    },
-    {
-      path: '/pick_task',
-      component: PGITotal,
-      props: true,
-    },
-    {
-      path: '/pgi_np',
-      component: PGIHourly,
-      props: true,
     },
     {
       path: '*',

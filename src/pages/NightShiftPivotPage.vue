@@ -1,7 +1,7 @@
 <template>
   <div id="pivot">
     <b-container fluid="">
-      <h1>Night Shift</h1>
+      <h1>Night Shift Picking result</h1>
       <b-row>
         <b-col>
           <NightPivot/>

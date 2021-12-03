@@ -38,7 +38,7 @@ import { createStore } from "devextreme-aspnet-data-nojquery";
 const DayPivot = new PivotGridDataSource({
   rtlEnabled: true,
   store: createStore({
-    loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshDayShift',
+    loadUrl: 'http://106.109.40.63:8081/api/getPivotRefreshDayShift',
     loadParams: {
       cur_date: moment()
         .format('YYYY-MM-DD')
@@ -61,7 +61,7 @@ const DayPivot = new PivotGridDataSource({
       dataField: 'worker',
       dataType: 'text',
       area: 'row',
-      sortBySummaryField: 'worker',
+      sortBySummaryField: 'volume',
       sortOrder: 'desc',
       width: 300,
     },
@@ -70,13 +70,16 @@ const DayPivot = new PivotGridDataSource({
       dataField: 'pick_time',
       dataType: 'datetime',
       area: 'column',
-      sortBySummaryField: 'pick_time',
       sortOrder: 'asc',
     },
     {
-      caption: 'Value_Worker',
-      dataField: 'worker',
-      dataType: 'text',
+      caption: 'Value_Volume',
+      dataField: 'volume',
+      format: {
+        type: 'largeNumber',
+        precision: 1,
+      },
+      summaryType: 'sum',
       area: 'data',
     },
   ],
@@ -105,7 +108,7 @@ export default {
       this.DayPivot = new PivotGridDataSource({
         rtlEnabled: true,
         store: createStore({
-          loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshDayShift',
+          loadUrl: 'http://106.109.40.63:8081/api/getPivotRefreshDayShift',
           loadParams: {
             cur_date: this.$data.period.cur_date.slice(0, 10),
             past_date: moment(this.$data.period.cur_date.slice(0, 10))
@@ -125,7 +128,7 @@ export default {
             dataField: 'worker',
             dataType: 'text',
             area: 'row',
-            sortBySummaryField: 'worker',
+            sortBySummaryField: 'volume',
             sortOrder: 'desc',
             width: 300,
           },
@@ -137,9 +140,13 @@ export default {
             sortOrder: 'asc',
           },
           {
-            caption: 'Value_Worker',
-            dataField: 'worker',
-            dataType: 'text',
+            caption: 'Value_Volume',
+            dataField: 'volume',
+            format: {
+              type: 'largeNumber',
+              precision: 1,
+            },
+            summaryType: 'sum',
             area: 'data',
           },
         ],
@@ -201,20 +208,23 @@ export default {
         };
       }
       const { value } = cell;
-      if (value < 20) {
+      if (value <= 7) {
         return {
-          font: '#ffff00',
+          font: '#ff0000',
+          fill: 'FFC7CE',
           bold: true,
         };
       }
-      if (value > 25) {
+      if (value >= 10) {
         return {
-          font: '#00ff4e',
+          font: '#00ff4d',
+          fill: 'C6EFCE',
           bold: true,
         };
       }
       return {
-        font: '#07edf9',
+        font: '#ffff00',
+        fill: 'FFEB9C',
         bold: true,
       };
     },

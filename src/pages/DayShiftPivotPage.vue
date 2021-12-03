@@ -1,7 +1,7 @@
 <template>
   <div id="pivot">
     <b-container fluid="">
-      <h1>Day Shift</h1>
+      <h1>Day Shift Picking result</h1>
       <b-row>
         <b-col>
           <DayPivot/>
