@@ -31,14 +31,14 @@ import DxPivotGrid, { DxFieldChooser } from 'devextreme-vue/pivot-grid';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 import moment from "moment";
 import { createStore } from "devextreme-aspnet-data-nojquery";
-
+import axios_conf from "../http-common";
 /**
  * @type {PivotGridDataSource}
  */
 const DayPivot = new PivotGridDataSource({
   rtlEnabled: true,
   store: createStore({
-    loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshDayShift',
+    loadUrl: `${axios_conf.defaults.baseURL}/getPivotRefreshDayShift`,
     loadParams: {
       cur_date: moment()
         .format('YYYY-MM-DD')
@@ -105,7 +105,7 @@ export default {
       this.DayPivot = new PivotGridDataSource({
         rtlEnabled: true,
         store: createStore({
-          loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshDayShift',
+          loadUrl: `${axios_conf.defaults.baseURL}/getPivotRefreshDayShift`,
           loadParams: {
             cur_date: this.$data.period.cur_date.slice(0, 10),
             past_date: moment(this.$data.period.cur_date.slice(0, 10))
@@ -229,6 +229,9 @@ export default {
         this.updateStore();
       }, 600000);
     },
+  },
+  created() {
+    this.updateStore();
   },
   mounted() {
     this.startTimer();

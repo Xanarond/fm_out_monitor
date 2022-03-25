@@ -31,11 +31,12 @@ import DxPivotGrid, { DxFieldChooser } from 'devextreme-vue/pivot-grid';
 import PivotGridDataSource from 'devextreme/ui/pivot_grid/data_source';
 import { createStore } from 'devextreme-aspnet-data-nojquery';
 import moment from "moment";
+import axios_conf from "../http-common";
 
 const NightPivot = new PivotGridDataSource({
   rtlEnabled: true,
   store: createStore({
-    loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshNightShift',
+    loadUrl: `${axios_conf.defaults.baseURL}/getPivotRefreshNightShift`,
     loadParams: {
       cur_date: moment()
         .format('YYYY-MM-DD')
@@ -102,7 +103,7 @@ export default {
       this.NightPivot = new PivotGridDataSource({
         rtlEnabled: true,
         store: createStore({
-          loadUrl: 'http://192.168.120.99:8081/api/getPivotRefreshNightShift',
+          loadUrl: `${axios_conf.defaults.baseURL}/getPivotRefreshNightShift`,
           loadParams: {
             cur_date: this.$data.period.cur_date.slice(0, 10),
             past_date: moment(this.$data.period.cur_date.slice(0, 10))
@@ -231,6 +232,9 @@ export default {
       }, 600000);
     },
   },
+  created() {
+    this.updateStore();
+  },
   mounted() {
     this.startTimer();
   },
@@ -240,7 +244,7 @@ export default {
 };
 </script>
 <style scoped>
-#pivot div{
+#pivot div {
   text-align: center !important;
   font-size: 32px;
   font-weight: bold;

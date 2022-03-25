@@ -9,10 +9,9 @@ const NightShiftChartPage = () => import('@/pages/NightShiftChartPage');
 const DayShiftPivotPage = () => import('@/pages/DayShiftPivotPage');
 const NightShiftPivotPage = () => import('@/pages/NightShiftPivotPage');
 const PickingPage = () => import('@/pages/PickingPage');
-const MLPage = () => import('@/pages/MLPage');
 const PGITotal = () => import('@/pages/PGITotal');
 const PGIHourly = () => import('@/pages/PGIHourly');
-
+const Inbound = () => import('@/pages/InboundDashboard');
 export default new Router({
   mode: 'history',
   routes: [
@@ -41,9 +40,8 @@ export default new Router({
       component: PickingPage,
     },
     {
-      path: '/ml_status',
-      component: MLPage,
-      props: true,
+      path: '/inbound',
+      component: Inbound,
     },
     {
       path: '/pick_task',

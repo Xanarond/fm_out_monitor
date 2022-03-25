@@ -347,7 +347,7 @@ export default {
       this.interval = window.setInterval(() => {
         this.getDate();
         // this.getCounters();
-      }, 5000);
+      }, 600000);
     },
   },
   mounted() {

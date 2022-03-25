@@ -30,9 +30,6 @@
           <md-menu-item to="/monitor">
             Monitoring
           </md-menu-item>
-          <md-menu-item to="/ml_status">
-           M/L Status
-          </md-menu-item>
         </md-menu-content>
       </md-menu>
       <md-menu class="pr-1" md-align-trigger md-size="auto">
@@ -43,6 +40,14 @@
           </md-menu-item>
           <md-menu-item to="/pgi_np">
             PGI Not Picked
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu class="pr-1" md-align-trigger md-size="auto">
+        <md-button md-menu-trigger>INBOUND</md-button>
+        <md-menu-content>
+          <md-menu-item to="/inbound">
+            Inbound Dashboard
           </md-menu-item>
         </md-menu-content>
       </md-menu>
