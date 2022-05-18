@@ -6,8 +6,9 @@ Vue.use(Router);
 // const TablePage = () => import('@/pages/TablePage');
 // const DayShiftChartPage = () => import('@/pages/DayShiftChartPage');
 // const NightShiftChartPage = () => import('@/pages/NightShiftChartPage');
-const DayShiftPivotPage = () => import('@/pages/DayShiftPivotPage');
-const NightShiftPivotPage = () => import('@/pages/NightShiftPivotPage');
+// const DayShiftPivotPage = () => import('@/pages/DayShiftPivotPage');
+// const NightShiftPivotPage = () => import('@/pages/NightShiftPivotPage');
+const StockStatus = () => import('@/pages/StockStatusPage');
 // const PickingPage = () => import('@/pages/PickingPage');
 // const MLPage = () => import('@/pages/MLPage');
 // const PGITotal = () => import('@/pages/PGITotal');
@@ -17,16 +18,8 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '',
-      component: DayShiftPivotPage,
-    },
-    {
-      path: '/day',
-      component: DayShiftPivotPage,
-    },
-    {
-      path: '/night',
-      component: NightShiftPivotPage,
+      path: '/',
+      component: StockStatus,
     },
     {
       path: '*',
